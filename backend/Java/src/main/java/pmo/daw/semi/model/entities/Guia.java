@@ -66,6 +66,7 @@ public class Guia {
 	 * Mapea un ResultSet a un objeto Guia.
 	 * 
 	 * @param rs ResultSet con la fila del Guia
+	 * @param alias Prefijo para las columnas (ej: "r.")
 	 * @return Guia mapeado
 	 * @throws SQLException si ocurre un error de SQL
 	 */

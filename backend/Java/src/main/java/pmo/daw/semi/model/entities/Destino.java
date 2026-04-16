@@ -64,6 +64,7 @@ public class Destino {
 	 * Mapea un ResultSet a un objeto Destino.
 	 * 
 	 * @param rs ResultSet con la fila del destino
+	 * @param alias Prefijo para las columnas (ej: "r.")
 	 * @return Destino mapeado
 	 * @throws SQLException si ocurre un error de SQL
 	 */
