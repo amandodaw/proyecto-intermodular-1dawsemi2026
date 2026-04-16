@@ -59,16 +59,22 @@ public class Destino {
 		return "Destino [id=" + id + ", ciudad=" + ciudad + ", pais=" + pais + ", precio=" + precio
 				+ ", requierePasaporte=" + requierePasaporte + "]";
 	}
+	
+	/**
+	 * Mapea un ResultSet a un objeto Destino.
+	 * 
+	 * @param rs ResultSet con la fila del destino
+	 * @return Destino mapeado
+	 * @throws SQLException si ocurre un error de SQL
+	 */
 
 	public static Destino mapResultSet(ResultSet rs) throws SQLException {
-		return mapResultSet(rs, ""); // Llama al de abajo pasando "nada" como prefijo
+		return mapResultSet(rs, "");
 	}
 
 	public static Destino mapResultSet(ResultSet rs, String alias) throws SQLException {
 		Destino destino = new Destino();
 
-		// Usamos el alias para que, si en el futuro hay prefijos (ej: "d.id"),
-		// el código siga funcionando.
 		destino.setId(rs.getInt(alias + "id"));
 		destino.setCiudad(rs.getString(alias + "ciudad"));
 		destino.setPais(rs.getString(alias + "pais"));
