@@ -1,6 +1,10 @@
 package pmo.daw.semi.model.repository;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import pmo.daw.semi.excepciones.RepositoryException;
@@ -18,14 +22,52 @@ public class DestinoRepository extends BaseRepository<Destino, Integer> {
 
 	@Override
 	public List<Destino> findAll(Connection conexion) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Destino> listaDestinos = new ArrayList<>();
+		String sql = "SELECT * FROM destino;";
+		
+		try(PreparedStatement ps = conexion.prepareStatement(sql)){
+			
+			try(ResultSet rs = ps.executeQuery()){
+				
+				while(rs.next()) {
+					
+					listaDestinos.add(Destino.mapResultSet(rs));
+				}
+				
+			}
+			
+		}catch(SQLException e) {
+			throw new RepositoryException("Error al consultar los destinos. ", e);
+		}
+		
+		return listaDestinos;
 	}
 
 	@Override
 	public Destino findById(Connection conexion, Integer id) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Destino destino = null;
+		String sql = "SELECT * FROM destino WHERE id = ?;";
+		
+		try(PreparedStatement ps = conexion.prepareStatement(sql)){
+			
+			ps.setInt(1, id);
+			
+			try(ResultSet rs = ps.executeQuery()){
+				
+				while(rs.next()) {
+					
+					destino = Destino.mapResultSet(rs);
+				}
+				
+			}
+			
+		}catch(SQLException e) {
+			throw new RepositoryException("Error al consultar el destino. ", e);
+		}
+		
+		return destino;
 	}
 
 	@Override
