@@ -80,7 +80,7 @@ public class ReservaService extends BaseService<Reserva, Integer> {
 				throw new ServiceException("El destino requiere pasaporte y el usuario no dispone de uno");
 			}
 			
-			if (p.getFechaCaducidad().before(entity.getFecha())) {
+			if (p.getFechaCaducidad().isBefore(entity.getFecha())) {
 				throw new ServiceException("El pasaporte del usuario estará caducado en la fecha del viaje");
 			}
 		}
