@@ -103,6 +103,7 @@ public class Usuario {
 	 * Mapea un ResultSet a un objeto Usuario.
 	 * 
 	 * @param rs ResultSet con la fila de usuario
+	 * @param alias Prefijo para las columnas (ej: "r.")
 	 * @return Usuario mapeado
 	 * @throws SQLException si ocurre un error de SQL
 	 */

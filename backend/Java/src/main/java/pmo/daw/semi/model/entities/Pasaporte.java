@@ -91,6 +91,7 @@ public class Pasaporte {
 	 * Mapea un ResultSet a un objeto Pasaporte.
 	 * 
 	 * @param rs ResultSet con la fila de usuario
+	 * @param alias Prefijo para las columnas (ej: "r.")
 	 * @return Pasaporte mapeado
 	 * @throws SQLException si ocurre un error de SQL
 	 */
