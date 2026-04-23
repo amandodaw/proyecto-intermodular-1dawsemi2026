@@ -1,0 +1,157 @@
+/* 1. CONFIGURACIÓN GLOBAL (Apunte 04, pág 18) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #020205; /* Negro profundo espacial */
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+}
+
+/* 2. HEADER: EFECTO CRISTAL (Apunte 05, pág 15 - RGBA y Opacity) */
+header {
+    background-color: rgba(0, 242, 255, 0.05); /* Cian muy transparente */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #00f2ff;
+    /* Resplandor neón (Apunte 04, pág 3 - Sombras) */
+    box-shadow: 0px 0px 20px #00f2ff;
+}
+
+.logo-futurista {
+    font-size: 2.5em; /* Unidad relativa (Apunte 05, pág 2) */
+    color: #00f2ff;
+    text-transform: uppercase;
+    /* Efecto neón en texto (Apunte 04, pág 3) */
+    text-shadow: 0px 0px 10px #00f2ff, 0px 0px 20px #00f2ff;
+}
+
+/* 3. NAVEGACIÓN (Apunte 04, pág 18 - Selectores descendientes) */
+nav ul {
+    list-style: none;
+    margin-top: 15px;
+}
+
+nav ul li {
+    display: inline-block; /* Alternativa segura a flexbox */
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #00f2ff;
+    border: 1px solid #00f2ff;
+    padding: 5px 15px;
+    border-radius: 5px; /* CSS3 (Apunte 04, pág 3) */
+}
+
+nav ul li a:hover {
+    background-color: #00f2ff;
+    color: #000;
+    box-shadow: 0px 0px 15px #00f2ff;
+}
+
+.bienvenida {
+    /* 1. La ruta de la imagen (Asegúrate de tener el archivo en tu carpeta img) */
+    background-image: url("img/viaLactea.jpg");
+    
+    /* 2. Propiedades de tus apuntes (CSS-02, pág 15) */
+    height: 600px; /* Altura fija para que se vea bien el fondo */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No queremos que la galaxia se repita como un mosaico */
+    background-size: cover; /* ¡Fundamental! Hace que la foto cubra todo el espacio */
+    
+    /* 3. Un extra de fantasía: Borde de neón para "encuadrar" el espacio */
+    border: 2px solid #00f2ff;
+    box-shadow: inset 0 0 50px #000; /* Sombra interna para dar profundidad */
+}
+
+.buscador-home {
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con RGBA */
+    display: inline-block;
+    padding: 30px;
+    border: 2px solid #ff00ff; /* Magenta neón para contraste */
+    box-shadow: 0px 0px 15px #ff00ff;
+    border-radius: 15px;
+}
+
+/* 5. TARJETAS DE DESTINO (Modelo de caja - Apunte 04) */
+.contenedor-destinos {
+    text-align: center;
+    padding: 40px;
+}
+
+.tarjeta-destino {
+    background-color: #1a1a2e;
+    border: 1px solid #00f2ff;
+    display: inline-block;
+    width: 300px;
+    margin: 20px;
+    vertical-align: top;
+    border-radius: 10px;
+}
+
+.img-destino {
+    width: 100%;
+    height: 180px;
+    border-bottom: 1px solid #00f2ff;
+    opacity: 0.8; /* Efecto futurista usando opacidad (Apunte 05, pág 15) */
+}
+
+.tarjeta-destino:hover .img-destino {
+    opacity: 1; /* Al pasar el ratón se ilumina */
+}
+
+/* 6. FORMULARIOS (Apunte 04 - Estilos básicos) */
+form {
+    background-color: #111;
+    border: 1px solid #00f2ff;
+    padding: 30px;
+    width: 350px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 20px rgba(0, 242, 255, 0.2);
+}
+
+label {
+    display: block;
+    color: #00f2ff;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #00f2ff;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+/* 7. BOTONES (Fantasía con bordes) */
+button, .btn-reserva {
+    background-color: transparent;
+    color: #ff00ff;
+    border: 1px solid #ff00ff;
+    padding: 10px 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: inset 0px 0px 5px #ff00ff;
+}
+
+button:hover {
+    background-color: #ff00ff;
+    color: #fff;
+    box-shadow: 0px 0px 20px #ff00ff;
+}
+
+/* 8. PIE DE PÁGINA */
+footer {
+    padding: 30px;
+    text-align: center;
+    border-top: 1px solid #333;
+    color: rgba(255, 255, 255, 0.5);
+}
