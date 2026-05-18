@@ -20,7 +20,7 @@
     <main>
         <h2 class="titulo-seccion">Explora el Sistema Solar</h2>
         
-        <section class="contenedor-destinos" id="destinosContainer">
+        <section class="contenedor-destinos" id="contenedor-destinos">
             <p>Cargando destinos...</p>
         </section>
     </main>
@@ -28,38 +28,37 @@
     <script src="api.js"></script>
     <script>
         async function cargarDestinos() {
-            const container = document.getElementById('destinosContainer');
+            const container = document.getElementById("contenedor-destinos");
             try {
+                console.log("Cargando destinos...");
                 const destinos = await getDestinos();
-                container.innerHTML = '';
-                
-                if (destinos.length === 0) {
-                    container.innerHTML = '<p>No hay destinos disponibles.</p>';
+                console.log("Destinos:", destinos);
+                container.innerHTML = "";
+                if (!destinos || destinos.length === 0) {
+                    container.innerHTML = "<p>No hay destinos disponibles</p>";
                     return;
                 }
-
                 destinos.forEach(destino => {
-                    const card = document.createElement('article');
-                    card.className = 'tarjeta-destino';
+                    const card = document.createElement("article");
+                    card.className = "tarjeta-destino";
                     card.innerHTML = `
                         <section class="info-destino">
                             <h3>${destino.ciudad}, ${destino.pais}</h3>
-                            <p class="precio">Desde ${destino.precio} ฿</p>
-                            <p>${destino.requierePasaporte ? 'Se requiere pasaporte' : 'No requiere pasaporte'}</p>
-                            <button type="button" class="btn-reserva" onclick="reservarDestino(${destino.id})">Reservar Plaza</button>
+                            <p>Precio: ${destino.precio} €</p>
+                            <p>Requiere pasaporte: ${destino.requierePasaporte ? "Sí" : "No"}</p>
+                            <button type="button" class="btn-reserva" onclick="reservar(${destino.id})">Reservar Plaza</button>
                         </section>
                     `;
                     container.appendChild(card);
                 });
-            } catch (error) {
-                container.innerHTML = '<p>Error al cargar destinos.</p>';
+            } catch (e) {
+                console.error("Error:", e);
+                container.innerHTML = "<p>Error al cargar destinos: " + e.message + "</p>";
             }
         }
-
-        function reservarDestino(idDestino) {
-            alert('Reserva iniciada para destino ID: ' + idDestino);
+        function reserva(id) {
+            alert("Reserva ID: " + id);
         }
-
         cargarDestinos();
     </script>
 

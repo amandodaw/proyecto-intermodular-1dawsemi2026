@@ -23,7 +23,8 @@
             <h2>Crea tu Cuenta</h2>
             <p>Regístrate para empezar a reservar tus viajes soñados.</p>
 
-            <form id="registroForm">
+            <form id="form-registro">
+
                 <div class="campo-formulario">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan" required>
@@ -41,7 +42,7 @@
 
                 <div class="campo-formulario">
                     <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" placeholder="Ej: 612345678">
+                    <input type="text" id="telefono" name="telefono" placeholder="Ej: 612345678">
                 </div>
 
                 <div class="campo-formulario">
@@ -52,6 +53,7 @@
                 <div class="campo-formulario">
                     <button type="submit">Registrarme</button>
                 </div>
+
             </form>
             <p id="mensaje"></p>
             <p>¿Ya tienes cuenta? <a href="#">Inicia sesión aquí</a>.</p> 
@@ -60,26 +62,36 @@
 
     <script src="api.js"></script>
     <script>
-        document.getElementById('registroForm').addEventListener('submit', async (e) => {
+        document.getElementById("form-registro").addEventListener("submit", async function(e) {
             e.preventDefault();
-            const mensaje = document.getElementById('mensaje');
+            const mensaje = document.getElementById("mensaje");
             
-            const usuario = {
-                nombre: document.getElementById('nombre').value,
-                apellidos: document.getElementById('apellidos').value,
-                email: document.getElementById('email').value,
-                telefono: document.getElementById('telefono').value,
-                fechaNacimiento: document.getElementById('fechaNacimiento').value
+            const data = {
+                nombre: document.getElementById("nombre").value,
+                apellidos: document.getElementById("apellidos").value,
+                email: document.getElementById("email").value,
+                telefono: document.getElementById("telefono").value,
+                fechaNacimiento: document.getElementById("fechaNacimiento").value,
+                pasaporte: {
+                    numero: "",
+                    paisExpedicion: "",
+                    fechaCaducidad: "2030-01-01"
+                }
             };
 
             try {
-                await crearUsuario(usuario);
-                mensaje.textContent = '¡Registro exitoso! Ya puedes reservar tus viajes.';
-                mensaje.style.color = 'green';
-                document.getElementById('registroForm').reset();
-            } catch (error) {
-                mensaje.textContent = 'Error al registrar. Intenta de nuevo.';
-                mensaje.style.color = 'red';
+                const response = await createUsuario(data);
+                if (response.ok) {
+                    mensaje.textContent = "¡Registro exitoso!";
+                    mensaje.style.color = "green";
+                    this.reset();
+                } else {
+                    mensaje.textContent = "Error al registrar";
+                    mensaje.style.color = "red";
+                }
+            } catch (e) {
+                mensaje.textContent = "Error de conexión";
+                mensaje.style.color = "red";
             }
         });
     </script>

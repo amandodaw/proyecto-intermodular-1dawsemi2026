@@ -24,14 +24,9 @@
             
             <div class="buscador-home">
                 <label for="buscar-destino">¿A dónde quieres viajar?</label>
-                <input type="text" id="buscar-destino" name="destino" list="planetas-list" placeholder="Ej: Marte...">
-                <datalist id="planetas-list">
-                    <option value="Marte">
-                    <option value="Saturno">
-                    <option value="Neptuno">
-                    <option value="Alfa Centauri">
-                </datalist>
-                <button type="submit" class="btn-reserva">Buscar Nave</button>
+                <input type="text" id="buscar-destino" name="destino" placeholder="Escribe una ciudad...">
+                <button type="button" class="btn-reserva" onclick="buscarDestino()">Buscar Nave</button>
+                <div id="resultado-busqueda"></div>
             </div>
         </section>
 
@@ -46,6 +41,41 @@
             </article>
         </section>
     </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function buscarDestino() {
+            const termino = document.getElementById('buscar-destino').value.toLowerCase();
+            const resultado = document.getElementById('resultado-busqueda');
+            
+            if (!termino) {
+                resultado.innerHTML = '<p>Por favor, introduce un destino.</p>';
+                return;
+            }
+
+            try {
+                const destinos = await getDestinos();
+                const coincidencias = destinos.filter(d => 
+                    d.ciudad.toLowerCase().includes(termino) || 
+                    d.pais.toLowerCase().includes(termino)
+                );
+
+                if (coincidencias.length > 0) {
+                    resultado.innerHTML = coincidencias.map(d => 
+                        `<p><strong>${d.ciudad}, ${d.pais}</strong> - Desde ${d.precio} ฿ <button onclick="reservar(${d.id})">Reservar</button></p>`
+                    ).join('');
+                } else {
+                    resultado.innerHTML = '<p>No se encontraron destinos.</p>';
+                }
+            } catch (error) {
+                resultado.innerHTML = '<p>Error al buscar destinos.</p>';
+            }
+        }
+
+        function reservar(id) {
+            window.location.href = 'destino.html';
+        }
+    </script>
 
     <footer>
         <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
