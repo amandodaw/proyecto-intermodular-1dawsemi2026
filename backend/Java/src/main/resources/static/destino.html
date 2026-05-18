@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es"> <head>
+    <meta charset="UTF-8">
+    <title>GALAXY TRAVEL - DESTINOS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <header>
+        <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="registro.html">Registro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2 class="titulo-seccion">Explora el Sistema Solar</h2>
+        
+        <section class="contenedor-destinos" id="contenedor-destinos">
+            <p>Cargando destinos...</p>
+        </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarDestinos() {
+            const container = document.getElementById("contenedor-destinos");
+            try {
+                console.log("Cargando destinos...");
+                const destinos = await getDestinos();
+                console.log("Destinos:", destinos);
+                container.innerHTML = "";
+                if (!destinos || destinos.length === 0) {
+                    container.innerHTML = "<p>No hay destinos disponibles</p>";
+                    return;
+                }
+                destinos.forEach(destino => {
+                    const card = document.createElement("article");
+                    card.className = "tarjeta-destino";
+                    card.innerHTML = `
+                        <section class="info-destino">
+                            <h3>${destino.ciudad}, ${destino.pais}</h3>
+                            <p>Precio: ${destino.precio} €</p>
+                            <p>Requiere pasaporte: ${destino.requierePasaporte ? "Sí" : "No"}</p>
+                            <button type="button" class="btn-reserva" onclick="reservar(${destino.id})">Reservar Plaza</button>
+                        </section>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                console.error("Error:", e);
+                container.innerHTML = "<p>Error al cargar destinos: " + e.message + "</p>";
+            }
+        }
+        function reserva(id) {
+            alert("Reserva ID: " + id);
+        }
+        cargarDestinos();
+    </script>
+
+    <footer>
+        <p>&copy; 2026 Galaxy Travel - Terminal de Control de Pasajeros</p>
+    </footer>
+
+</body>
+</html>
