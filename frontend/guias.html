@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALAXY TRAVEL - ALTA DE GUÍAS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="images/logo.png" alt="Logo Galaxy Travel" class="logo-icono">
+            <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="viajes.html">Viajes</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="guias.html">Guías</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="seccion-fondo-universo">
+            <section class="contenedor-formulario">
+                <form id="form-guia" action="/api/guia" method="POST">
+                    <fieldset>
+                        <legend>Alta de Guía Interplanetario</legend>
+                        <label for="nombre-guia">Nombre:</label>
+                        <input type="text" id="nombre-guia" name="nombre" required>
+
+                        <label for="apellidos-guia">Apellidos:</label>
+                        <input type="text" id="apellidos-guia" name="apellidos" required>
+
+                        <label for="especialidad">Especialidad:</label>
+                        <!-- Uso de Select para el Enumerado[cite: 1, 5] -->
+                        <select id="especialidad" name="especialidad" required>
+                            <option value="">--Seleccione una especialidad--</option>
+                            <option value="Geografia">Geografía</option>
+                            <option value="Historia">Historia</option>
+                            <option value="Arquitectura">Arquitectura</option>
+                            <option value="Comida">Comida</option>
+                        </select>
+                    </fieldset>
+
+                    <button type="submit" class="btn-cohete">Registrar Guía</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+<footer>
+        <address>
+            <p>Galaxy Travel - Base Espacial Benidorm</p>
+            <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
+        </address>
+        <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
+    </footer>
+</html>

@@ -2,33 +2,99 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALAXY TRAVEL - INICIO</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
     <header>
-    <h1 class="logo-futurista">GALAXY TRAVEL</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="destino.html">Destinos</a></li>
-            <li><a href="registro.html">Registro</a></li>
-        </ul>
-    </nav>
-</header>
-<main>
+        <div class="header-logo">
+            <img src="images/logo.png" alt="Logo Galaxy Travel" class="logo-icono">
+            <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="viajes.html">Viajes</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="guias.html">Guías</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
         <section class="bienvenida">
             <h2>EL FUTURO DE TUS VIAJES COMIENZA AQUÍ</h2>
             <p>Reserva tu próximo salto hiperespacial con la agencia líder en el sector.</p>
             
-            <div class="buscador-home">
+            <form class="buscador-home">
                 <label for="buscar-destino">¿A dónde quieres viajar?</label>
-                <input type="text" id="buscar-destino" name="destino" placeholder="Escribe una ciudad...">
+                <input type="text" id="buscar-destino" name="destino" list="planetas-list" placeholder="Escribe una ciudad...">
+                <datalist id="planetas-list">
+                    <option value="Ciudad Ares (Marte)">
+                    <option value="Nueva Alejandría (Marte)">
+                    <option value="Titán Prime (Saturno)">
+                    <option value="Anillo Ícaro (Saturno)">
+                    <option value="Estación Poseidón (Neptuno)">
+                    <option value="Tritón Profundo (Neptuno)">
+                    <option value="Aerópolis (Venus)">
+                    <option value="Refugio Ío (Júpiter)">
+                    <option value="Europa Termal (Júpiter)">
+                    <option value="Calisto Glacial (Júpiter)">
+                    <option value="Puerto Mercurio (Mercurio)">
+                    <option value="Base Solar (Mercurio)">
+                    <option value="Órbita Ceres (Ceres)">
+                    <option value="Encelado Aqua (Saturno)">
+                    <option value="Vórtice Oscuro (Neptuno)">
+                </datalist>
                 <button type="button" class="btn-reserva" onclick="buscarDestino()">Buscar Nave</button>
                 <div id="resultado-busqueda"></div>
-            </div>
+            </form>
         </section>
+
+        
+        <div class="seccion-fondo-universo">
+    <section class="top-viajes">
+        <h2>Los 4 viajes más solicitados</h2>
+        <div class="grid-excursiones">
+            <a href="destino.html?id=1" class="card-link">
+                <article class="card-excursion">
+                    <h3>Ciudad Ares</h3>
+                    <p>Planeta: Marte</p>
+                    <p><strong>Viajeros apuntados:</strong> 150</p>
+                    <p><strong>Guía:</strong> Cap. Nebulosa</p>
+                </article>
+            </a>
+            <a href="destino.html?id=2" class="card-link">
+                <article class="card-excursion">
+                    <h3>Titán Prime</h3>
+                    <p>Planeta: Saturno</p>
+                    <p><strong>Viajeros apuntados:</strong> 120</p>
+                    <p><strong>Guía:</strong> Dra. Estelar</p>
+                </article>
+            </a>
+            <a href="destino.html?id=3" class="card-link">
+                <article class="card-excursion">
+                    <h3>Estación Poseidón</h3>
+                    <p>Planeta: Neptuno</p>
+                    <p><strong>Viajeros apuntados:</strong> 95</p>
+                    <p><strong>Guía:</strong> Cmd. Viento</p>
+                </article>
+            </a>
+            <a href="destino.html?id=4" class="card-link">
+                <article class="card-excursion">
+                    <h3>Europa Termal</h3>
+                    <p>Planeta: Júpiter</p>
+                    <p><strong>Viajeros apuntados:</strong> 88</p>
+                    <p><strong>Guía:</strong> Prof. Luz</p>
+                </article>
+            </a>
+        
+        </div>
+    </section>
+</div>
 
         <section class="detalles-agencia">
             <article>
@@ -42,6 +108,7 @@
         </section>
     </main>
 
+    <!-- JavaScript-->
     <script src="api.js"></script>
     <script>
         async function buscarDestino() {
@@ -78,9 +145,11 @@
     </script>
 
     <footer>
+        <address>
+            <p>Galaxy Travel - Base Espacial Benidorm</p>
+            <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
+        </address>
         <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
     </footer>
-
-
 </body>
 </html>

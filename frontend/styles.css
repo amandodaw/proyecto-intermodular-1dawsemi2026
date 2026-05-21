@@ -1,4 +1,4 @@
-/* 1. CONFIGURACIÓN GLOBAL (Apunte 04, pág 18) */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,46 +6,55 @@
 }
 
 body {
-    background-color: #020205; /* Negro profundo espacial */
+    background-color: #020205; 
     font-family: Arial, sans-serif;
     color: #ffffff;
 }
 
-/* 2. HEADER: EFECTO CRISTAL (Apunte 05, pág 15 - RGBA y Opacity) */
+
 header {
-    background-color: rgba(0, 242, 255, 0.05); /* Cian muy transparente */
+    background-color: rgba(0, 0, 0, 0.05); 
     padding: 20px;
     text-align: center;
     border-bottom: 2px solid #00f2ff;
-    /* Resplandor neón (Apunte 04, pág 3 - Sombras) */
     box-shadow: 0px 0px 20px #00f2ff;
 }
 
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Separación entre el logo y las letras */
+    margin-bottom: 20px;
+}
+
+.logo-icono {
+    height: 100px; /* Cambia este valor para hacer el logo más grande o pequeño */
+    width: auto;
+}
+
 .logo-futurista {
-    font-size: 2.5em; /* Unidad relativa (Apunte 05, pág 2) */
+    font-size: 2.5em; 
     color: #00f2ff;
     text-transform: uppercase;
-    /* Efecto neón en texto (Apunte 04, pág 3) */
     text-shadow: 0px 0px 10px #00f2ff, 0px 0px 20px #00f2ff;
 }
 
-/* 3. NAVEGACIÓN (Apunte 04, pág 18 - Selectores descendientes) */
 nav ul {
     list-style: none;
     margin-top: 15px;
 }
 
 nav ul li {
-    display: inline-block; /* Alternativa segura a flexbox */
+    display: inline-block; 
     margin: 0 15px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: #00f2ff;
+    color: #5900ff;
     border: 1px solid #00f2ff;
     padding: 5px 15px;
-    border-radius: 5px; /* CSS3 (Apunte 04, pág 3) */
+    border-radius: 5px; 
 }
 
 nav ul li a:hover {
@@ -55,82 +64,144 @@ nav ul li a:hover {
 }
 
 .bienvenida {
-    /* 1. La ruta de la imagen (Asegúrate de tener el archivo en tu carpeta img) */
-    background-image: url("img/viaLactea.jpg");
-    
-    /* 2. Propiedades de tus apuntes (CSS-02, pág 15) */
-    height: 600px; /* Altura fija para que se vea bien el fondo */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* No queremos que la galaxia se repita como un mosaico */
-    background-size: cover; /* ¡Fundamental! Hace que la foto cubra todo el espacio */
-    
-    /* 3. Un extra de fantasía: Borde de neón para "encuadrar" el espacio */
+    background-image: url("images/ViaLacea.jpg");
+    height: 250px; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
     border: 2px solid #00f2ff;
-    box-shadow: inset 0 0 50px #000; /* Sombra interna para dar profundidad */
+    box-shadow: inset 0 0 50px #da0909;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: flex-start; 
+    padding: 50px; 
 }
 
+.seccion-fondo-universo {
+    background-image: url("images/Background.jpg"); 
+    background-attachment: fixed; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 50px 0;
+}
 .buscador-home {
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con RGBA */
-    display: inline-block;
-    padding: 30px;
-    border: 2px solid #ff00ff; /* Magenta neón para contraste */
-    box-shadow: 0px 0px 15px #ff00ff;
+    background-color: #ff00ff; /* Magenta sólido y vibrante */
+    padding: 20px; 
+    width: 300px; 
+    border: 2px solid #ffffff; /* Borde blanco para mayor contraste */
+    box-shadow: 0px 0px 25px #ff00ff;
     border-radius: 15px;
+    margin-top: 25px; 
 }
 
-/* 5. TARJETAS DE DESTINO (Modelo de caja - Apunte 04) */
-.contenedor-destinos {
-    text-align: center;
-    padding: 40px;
+.buscador-home label {
+    color: #ffffff;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Sombra oscura para dar legibilidad */
+    margin-bottom: 8px;
 }
 
-.tarjeta-destino {
-    background-color: #1a1a2e;
+.buscador-home .btn-reserva {
+    background-color: #000000;
+    color: #00f2ff;
     border: 1px solid #00f2ff;
-    display: inline-block;
-    width: 300px;
-    margin: 20px;
-    vertical-align: top;
-    border-radius: 10px;
+    box-shadow: none;
 }
 
-.img-destino {
-    width: 100%;
-    height: 180px;
-    border-bottom: 1px solid #00f2ff;
-    opacity: 0.8; /* Efecto futurista usando opacidad (Apunte 05, pág 15) */
+.buscador-home input {
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
 }
 
-.tarjeta-destino:hover .img-destino {
-    opacity: 1; /* Al pasar el ratón se ilumina */
+.buscador-home .btn-reserva:hover {
+    background-color: #00f2ff;
+    color: #000000;
+    box-shadow: 0px 0px 15px #00f2ff;
 }
 
-/* 6. FORMULARIOS (Apunte 04 - Estilos básicos) */
 form {
-    background-color: #111;
-    border: 1px solid #00f2ff;
-    padding: 30px;
-    width: 350px;
+    /* Aumentamos el relleno interno */
+    padding: 30px; 
+    
+    /* Mantenemos el resto del diseño igual */
+    background: rgba(15, 20, 35, 0.75); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(139, 194, 9, 0.15); 
+    border-radius: 10px;
+    width: 100%;
+    
+    
+    max-width: 500px; 
+    
     margin: 50px auto;
-    box-shadow: 0px 0px 20px rgba(0, 242, 255, 0.2);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    color: #e0e6ed;
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+form input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 14px 16px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 label {
     display: block;
     color: #00f2ff;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 1px; 
 }
 
-input {
-    width: 100%;
-    background-color: #000;
-    color: #fff;
-    border: 1px solid #00f2ff;
-    padding: 10px;
-    margin-bottom: 20px;
+form input:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.6);
+    border-color: #00f2ff;
+    /* Resplandor elegante al hacer clic */
+    box-shadow: 0 0 0 3px rgba(0, 242, 255, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* 7. BOTONES (Fantasía con bordes) */
+form button {
+    background: linear-gradient(135deg, #00f2ff 0%, #0088ff 100%);
+    color: #000;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+}
+
+form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 242, 255, 0.4);
+    background: linear-gradient(135deg, #33f5ff 0%, #339cff 100%);
+}
+
+/* 6. BOTONES */
 button, .btn-reserva {
     background-color: transparent;
     color: #ff00ff;
@@ -140,6 +211,7 @@ button, .btn-reserva {
     font-weight: bold;
     cursor: pointer;
     box-shadow: inset 0px 0px 5px #ff00ff;
+    transition: all 0.3s ease;
 }
 
 button:hover {
@@ -148,10 +220,96 @@ button:hover {
     box-shadow: 0px 0px 20px #ff00ff;
 }
 
-/* 8. PIE DE PÁGINA */
+/* 7. SECCIÓN TOP 10 VIAJES (GRID + EFECTO CRISTAL) */
+.top-viajes h2 {
+    text-align: center;
+    color: #00f2ff;
+    text-shadow: 0 0 15px #00f2ff;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    text-transform: uppercase;
+}
+
+.grid-excursiones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 0 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-excursion {
+    background-color: rgba(10, 15, 30, 0.6);
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s ease; 
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6), 
+                inset 0px 0px 10px rgba(0, 242, 255, 0.05);
+}
+
+.card-excursion:hover {
+    transform: translateY(-10px); 
+    border-color: #ff00ff; 
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.8), 
+                0px 0px 15px rgba(255, 0, 255, 0.4);
+}
+
+.card-excursion h3 {
+    color: #fff;
+    border-bottom: 1px solid #00f2ff;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.card-excursion p {
+    color: #ccc;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.card-excursion p strong {
+    color: #00f2ff; 
+}
+
+/* 8. DETALLES AGENCIA */
+.detalles-agencia {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px;
+    background-color: #05050a;
+    border-top: 1px solid #00f2ff;
+}
+
+.detalles-agencia article {
+    text-align: center;
+    width: 40%;
+}
+
+.detalles-agencia h3 {
+    color: #ff00ff;
+    margin-bottom: 15px;
+}
+
+/* 9. PIE DE PÁGINA */
 footer {
     padding: 30px;
     text-align: center;
     border-top: 1px solid #333;
+    background-color: #000;
     color: rgba(255, 255, 255, 0.5);
+}
+
+footer a {
+    color: #00f2ff;
+    text-decoration: none;
 }
