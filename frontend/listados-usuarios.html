@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GALAXY TRAVEL - LISTADO DE USUARIOS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="listados-destinos.html">Listados</a></li>
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
+                <li><a href="crear-destino.html">Crear Destino</a></li>
+                <li><a href="crear-guia.html">Crear Guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Listado de Usuarios</h2>
+            <div id="usuarios-container">
+                <p>Cargando usuarios...</p>
+            </div>
+        </section>
+
+        <section id="detalle-usuario" class="oculto">
+            <button onclick="volverListado()">← Volver al Listado</button>
+            <h2>Detalle del Usuario</h2>
+            <div id="info-usuario"></div>
+            <h3>Reservas del Usuario</h3>
+            <div id="reservas-usuario"></div>
+        </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarUsuarios() {
+            const container = document.getElementById('usuarios-container');
+            try {
+                const usuarios = await getUsuarios();
+                container.innerHTML = '';
+                if (usuarios.length === 0) {
+                    container.innerHTML = '<p>No hay usuarios registrados.</p>';
+                    return;
+                }
+                const ul = document.createElement('ul');
+                ul.className = 'lista-elementos';
+                usuarios.forEach(u => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>${u.nombre} ${u.apellidos}</strong> - ${u.email}
+                        ${u.pasaporte ? ' - Pasaporte: ' + u.pasaporte.numero : ' - Sin pasaporte'}
+                        <button onclick="verDetalle(${u.id})">Ver Detalle</button>
+                    `;
+                    ul.appendChild(li);
+                });
+                container.appendChild(ul);
+            } catch (error) {
+                container.innerHTML = '<p>Error al cargar usuarios.</p>';
+            }
+        }
+
+        async function verDetalle(id) {
+            try {
+                const usuario = await getUsuarioById(id);
+                document.getElementById('usuarios-container').parentElement.classList.add('oculto');
+                document.getElementById('detalle-usuario').classList.remove('oculto');
+
+                document.getElementById('info-usuario').innerHTML = `
+                    <p><strong>Nombre:</strong> ${usuario.nombre} ${usuario.apellidos}</p>
+                    <p><strong>Email:</strong> ${usuario.email}</p>
+                    <p><strong>Teléfono:</strong> ${usuario.telefono || 'No especificado'}</p>
+                    <p><strong>Fecha Nacimiento:</strong> ${usuario.fechaNacimiento || 'No especificada'}</p>
+                    <p><strong>Pasaporte:</strong> ${usuario.pasaporte ? usuario.pasaporte.numero + ' (' + usuario.pasaporte.paisExpedicion + ')' : 'No tiene'}</p>
+                `;
+
+                const reservasDiv = document.getElementById('reservas-usuario');
+                try {
+                    const reservas = await getReservasPorUsuario(id);
+                    if (reservas.length > 0) {
+                        reservasDiv.innerHTML = '<ul>' + reservas.map(r => 
+                            `<li>Destino ID: ${r.idDestino} - Fecha: ${r.fecha} - Precio: ${r.precioTotal} ฿</li>`
+                        ).join('') + '</ul>';
+                    } else {
+                        reservasDiv.innerHTML = '<p>No tiene reservas.</p>';
+                    }
+                } catch (e) {
+                    reservasDiv.innerHTML = '<p>No tiene reservas.</p>';
+                }
+            } catch (error) {
+                alert('Error al cargar el usuario');
+            }
+        }
+
+        function volverListado() {
+            document.getElementById('detalle-usuario').classList.add('oculto');
+            document.getElementById('usuarios-container').parentElement.classList.remove('oculto');
+            cargarUsuarios();
+        }
+
+        cargarUsuarios();
+    </script>
+
+    <style>
+        .oculto { display: none; }
+        .lista-elementos { list-style: none; padding: 0; }
+        .lista-elementos li { padding: 10px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+
+    <footer>
+        <p>&copy; 2026 Galaxy Travel - Terminal de Control de Pasajeros</p>
+    </footer>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALAXY TRAVEL - INICIO</title>
     <link rel="stylesheet" href="styles.css">
 
@@ -29,9 +30,17 @@
                     <option value="Marte">
                     <option value="Saturno">
                     <option value="Neptuno">
-                    <option value="Alfa Centauri">
+                    <option value="Júpiter">
                 </datalist>
-                <button type="submit" class="btn-reserva">Buscar Nave</button>
+                <button type="button" class="btn-reserva" onclick="buscarDestino()">Buscar Nave</button>
+                <div id="resultado-busqueda"></div>
+            </div>
+        </section>
+
+        <section class="destinos-destacados">
+            <h2>Destinos Disponibles</h2>
+            <div id="lista-destinos" class="contenedor-destinos">
+                <p>Cargando destinos...</p>
             </div>
         </section>
 
@@ -46,6 +55,59 @@
             </article>
         </section>
     </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarDestinos() {
+            const container = document.getElementById('lista-destinos');
+            try {
+                const destinos = await getDestinos();
+                container.innerHTML = '';
+                destinos.forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'tarjeta-destino';
+                    div.innerHTML = `
+                        <h3>${d.ciudad}, ${d.pais}</h3>
+                        <p>Desde ${d.precio} ฿</p>
+                        <p>${d.requierePasaporte ? 'Requiere pasaporte' : 'No requiere pasaporte'}</p>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (e) {
+                container.innerHTML = '<p>Error al cargar destinos</p>';
+            }
+        }
+
+        async function buscarDestino() {
+            const termino = document.getElementById('buscar-destino').value.toLowerCase();
+            const resultado = document.getElementById('resultado-busqueda');
+            
+            if (!termino) {
+                resultado.innerHTML = '<p>Por favor, introduce un destino.</p>';
+                return;
+            }
+
+            try {
+                const destinos = await getDestinos();
+                const coincidencias = destinos.filter(d => 
+                    d.ciudad.toLowerCase().includes(termino) || 
+                    d.pais.toLowerCase().includes(termino)
+                );
+
+                if (coincidencias.length > 0) {
+                    resultado.innerHTML = coincidencias.map(d => 
+                        `<p><strong>${d.ciudad}, ${d.pais}</strong> - Desde ${d.precio} ฿</p>`
+                    ).join('');
+                } else {
+                    resultado.innerHTML = '<p>No se encontraron destinos.</p>';
+                }
+            } catch (error) {
+                resultado.innerHTML = '<p>Error al buscar destinos.</p>';
+            }
+        }
+
+        cargarDestinos();
+    </script>
 
     <footer>
         <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>

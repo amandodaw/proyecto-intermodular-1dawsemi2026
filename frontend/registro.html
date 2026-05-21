@@ -62,6 +62,7 @@
                     </fieldset>
 
                     <button type="submit" class="btn-cohete">Dar de Alta</button>
+                    <p id="mensaje"></p>
                 </form>
             </section>
         </div>
@@ -70,23 +71,32 @@
 
     <script src="api.js"></script>
     <script>
-        document.getElementById('registroForm').addEventListener('submit', async (e) => {
+        document.getElementById('form-registro').addEventListener('submit', async (e) => {
             e.preventDefault();
             const mensaje = document.getElementById('mensaje');
-            
+
             const usuario = {
                 nombre: document.getElementById('nombre').value,
                 apellidos: document.getElementById('apellidos').value,
                 email: document.getElementById('email').value,
                 telefono: document.getElementById('telefono').value,
-                fechaNacimiento: document.getElementById('fechaNacimiento').value
+                fechaNacimiento: document.getElementById('fecha_nacimiento').value
             };
+
+            const numPasaporte = document.getElementById('numero_pasaporte').value.trim();
+            if (numPasaporte) {
+                usuario.pasaporte = {
+                    numero: numPasaporte,
+                    paisExpedicion: document.getElementById('pais_expedicion').value,
+                    fechaCaducidad: document.getElementById('fecha_caducidad').value
+                };
+            }
 
             try {
                 await crearUsuario(usuario);
                 mensaje.textContent = '¡Registro exitoso! Ya puedes reservar tus viajes.';
                 mensaje.style.color = 'green';
-                document.getElementById('registroForm').reset();
+                document.getElementById('form-registro').reset();
             } catch (error) {
                 mensaje.textContent = 'Error al registrar. Intenta de nuevo.';
                 mensaje.style.color = 'red';
@@ -95,15 +105,11 @@
     </script>
 
     <footer>
-        <p>&copy; 2026 Proyecto Intermodular DAW Semi. Todos los derechos reservados.</p>
-    </footer>
-
-</body>
-<footer>
         <address>
             <p>Galaxy Travel - Base Espacial Benidorm</p>
             <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
         </address>
         <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
     </footer>
+</body>
 </html>

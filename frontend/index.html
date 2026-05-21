@@ -58,40 +58,8 @@
         <div class="seccion-fondo-universo">
     <section class="top-viajes">
         <h2>Los 4 viajes más solicitados</h2>
-        <div class="grid-excursiones">
-            <a href="destino.html?id=1" class="card-link">
-                <article class="card-excursion">
-                    <h3>Ciudad Ares</h3>
-                    <p>Planeta: Marte</p>
-                    <p><strong>Viajeros apuntados:</strong> 150</p>
-                    <p><strong>Guía:</strong> Cap. Nebulosa</p>
-                </article>
-            </a>
-            <a href="destino.html?id=2" class="card-link">
-                <article class="card-excursion">
-                    <h3>Titán Prime</h3>
-                    <p>Planeta: Saturno</p>
-                    <p><strong>Viajeros apuntados:</strong> 120</p>
-                    <p><strong>Guía:</strong> Dra. Estelar</p>
-                </article>
-            </a>
-            <a href="destino.html?id=3" class="card-link">
-                <article class="card-excursion">
-                    <h3>Estación Poseidón</h3>
-                    <p>Planeta: Neptuno</p>
-                    <p><strong>Viajeros apuntados:</strong> 95</p>
-                    <p><strong>Guía:</strong> Cmd. Viento</p>
-                </article>
-            </a>
-            <a href="destino.html?id=4" class="card-link">
-                <article class="card-excursion">
-                    <h3>Europa Termal</h3>
-                    <p>Planeta: Júpiter</p>
-                    <p><strong>Viajeros apuntados:</strong> 88</p>
-                    <p><strong>Guía:</strong> Prof. Luz</p>
-                </article>
-            </a>
-        
+        <div class="grid-excursiones" id="top-destinos">
+            <p>Cargando destinos...</p>
         </div>
     </section>
 </div>
@@ -111,6 +79,37 @@
     <!-- JavaScript-->
     <script src="api.js"></script>
     <script>
+        async function cargarTopDestinos() {
+            const container = document.getElementById('top-destinos');
+            try {
+                const destinos = await getDestinos();
+                container.innerHTML = '';
+
+                if (destinos.length === 0) {
+                    container.innerHTML = '<p>No hay destinos disponibles.</p>';
+                    return;
+                }
+
+                const top4 = destinos.slice(0, 4);
+                top4.forEach(d => {
+                    const a = document.createElement('a');
+                    a.href = `destino.html?id=${d.id}`;
+                    a.className = 'card-link';
+                    a.innerHTML = `
+                        <article class="card-excursion">
+                            <h3>${d.ciudad}</h3>
+                            <p>Planeta: ${d.pais}</p>
+                            <p><strong>Precio:</strong> ${d.precio} ฿</p>
+                            <p>${d.requierePasaporte ? 'Requiere pasaporte' : 'No requiere pasaporte'}</p>
+                        </article>
+                    `;
+                    container.appendChild(a);
+                });
+            } catch (error) {
+                container.innerHTML = '<p>Error al cargar destinos.</p>';
+            }
+        }
+
         async function buscarDestino() {
             const termino = document.getElementById('buscar-destino').value.toLowerCase();
             const resultado = document.getElementById('resultado-busqueda');
@@ -142,6 +141,8 @@
         function reservar(id) {
             window.location.href = 'destino.html';
         }
+
+        cargarTopDestinos();
     </script>
 
     <footer>

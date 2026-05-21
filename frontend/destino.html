@@ -47,6 +47,7 @@
                     </fieldset>
 
                     <button type="submit" class="btn-cohete">Añadir Destino</button>
+                    <p id="mensaje-form"></p>
                 </form>
             </section>
         </div>
@@ -55,6 +56,29 @@
 
     <script src="api.js"></script>
     <script>
+        document.getElementById('form-destino').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje-form');
+
+            const destino = {
+                ciudad: document.getElementById('ciudad').value,
+                pais: document.getElementById('pais').value,
+                precio: parseFloat(document.getElementById('precio').value),
+                requierePasaporte: document.getElementById('requiere_pasaporte').checked
+            };
+
+            try {
+                await crearDestino(destino);
+                mensaje.textContent = '¡Destino añadido con éxito!';
+                mensaje.style.color = 'green';
+                document.getElementById('form-destino').reset();
+                cargarDestinos();
+            } catch (error) {
+                mensaje.textContent = 'Error al añadir destino.';
+                mensaje.style.color = 'red';
+            }
+        });
+
         async function cargarDestinos() {
             const container = document.getElementById('destinosContainer');
             try {

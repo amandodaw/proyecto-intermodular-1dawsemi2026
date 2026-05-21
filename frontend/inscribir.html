@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GALAXY TRAVEL - INSCRIPCIÓN A DESTINO</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="listados-destinos.html">Listados</a></li>
+                <li><a href="crear-destino.html">Crear Destino</a></li>
+                <li><a href="crear-guia.html">Crear Guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Inscribirse en un Destino</h2>
+            <p>Selecciona un usuario y un destino para realizar la reserva.</p>
+
+            <form id="inscripcionForm">
+                <fieldset>
+                    <legend>Datos de la Inscripción</legend>
+                    
+                    <div class="campo-formulario">
+                        <label for="usuario">Seleccionar Usuario:</label>
+                        <select id="usuario" name="usuario" required>
+                            <option value="">-- Selecciona un usuario --</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="destino">Seleccionar Destino:</label>
+                        <select id="destino" name="destino" required>
+                            <option value="">-- Selecciona un destino --</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <button type="submit">Realizar Reserva</button>
+                    </div>
+                </fieldset>
+            </form>
+            <p id="mensaje"></p>
+        </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarUsuarios() {
+            const select = document.getElementById('usuario');
+            try {
+                const usuarios = await getUsuarios();
+                usuarios.forEach(u => {
+                    const option = document.createElement('option');
+                    option.value = u.id;
+                    option.textContent = `${u.nombre} ${u.apellidos} (${u.email})`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                document.getElementById('mensaje').textContent = 'Error al cargar usuarios.';
+                document.getElementById('mensaje').style.color = 'red';
+            }
+        }
+
+        async function cargarDestinos() {
+            const select = document.getElementById('destino');
+            try {
+                const destinos = await getDestinos();
+                destinos.forEach(d => {
+                    const option = document.createElement('option');
+                    option.value = d.id;
+                    option.textContent = `${d.ciudad}, ${d.pais} - ${d.precio} ฿`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                document.getElementById('mensaje').textContent = 'Error al cargar destinos.';
+                document.getElementById('mensaje').style.color = 'red';
+            }
+        }
+
+        document.getElementById('inscripcionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje');
+            
+            const idUsuario = parseInt(document.getElementById('usuario').value);
+            const idDestino = parseInt(document.getElementById('destino').value);
+
+            try {
+                const usuario = await getUsuarioById(idUsuario);
+                
+                if (!usuario.pasaporte || !usuario.pasaporte.numero) {
+                    mensaje.textContent = 'No puedes realizar la reserva. El usuario no tiene pasaporte válido.';
+                    mensaje.style.color = 'red';
+                    return;
+                }
+
+                if (usuario.pasaporte.fechaCaducidad) {
+                    const fechaCaducidad = new Date(usuario.pasaporte.fechaCaducidad);
+                    const hoy = new Date();
+                    if (fechaCaducidad < hoy) {
+                        mensaje.textContent = 'No puedes realizar la reserva. El pasaporte está caducado.';
+                        mensaje.style.color = 'red';
+                        return;
+                    }
+                }
+
+                const reserva = {
+                    idUsuario: idUsuario,
+                    idDestino: idDestino,
+                    fecha: new Date().toISOString().split('T')[0]
+                };
+
+                await crearReserva(reserva);
+                mensaje.textContent = '¡Reserva realizada con éxito!';
+                mensaje.style.color = 'green';
+                document.getElementById('inscripcionForm').reset();
+            } catch (error) {
+                mensaje.textContent = 'Error al realizar la reserva. Verifica que el usuario tenga pasaporte.';
+                mensaje.style.color = 'red';
+            }
+        });
+
+        cargarUsuarios();
+        cargarDestinos();
+    </script>
+
+    <footer>
+        <p>&copy; 2026 Galaxy Travel - Terminal de Control de Pasajeros</p>
+    </footer>
+
+</body>
+</html>
