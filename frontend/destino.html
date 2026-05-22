@@ -2,23 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GALAXY TRAVEL - ALTA DESTINO</title>
+    <title>GALAXY TRAVEL - DESTINOS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <header>
-        <div class="header-logo">
-            <img src="images/logo.png" alt="Logo Galaxy Travel" class="logo-icono">
-            <h1 class="logo-futurista">GALAXY TRAVEL</h1>
-        </div>
+        <h1 class="logo-futurista">GALAXY TRAVEL</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="destino.html">Destinos</a></li>
-                <li><a href="listados-destinos.html">Listados</a></li>
                 <li><a href="listados-usuarios.html">Usuarios</a></li>
-                <li><a href="crear-guia.html">Crear Guía</a></li>
+                <li><a href="crear-destino.html">Crear destino</a></li>
+                <li><a href="crear-guia.html">Crear guía</a></li>
                 <li><a href="registro.html">Registro</a></li>
                 <li><a href="inscribir.html">Inscribirse</a></li>
             </ul>
@@ -26,62 +23,65 @@
     </header>
 
     <main>
-        <div class="seccion-fondo-universo">
-            <section class="contenedor-formulario">
-                <form id="form-destino" action="/api/destino" method="POST">
-                    <fieldset>
-                        <legend>Creación de Nuevo Destino</legend>
-                        <label for="ciudad">Ciudad:</label>
-                        <input type="text" id="ciudad" name="ciudad" required>
+        <section id="lista-destinos">
+            <h2>Destinos</h2>
+            <div id="destinos-container">
+                <p>Cargando destinos...</p>
+            </div>
+        </section>
 
-                        <label for="pais">País (o Planeta):</label>
-                        <input type="text" id="pais" name="pais" required>
+        <section id="detalle-destino" class="oculto">
+            <button onclick="volverListado()">← Volver al Listado</button>
+            <h2>Detalle del Destino</h2>
+            <div id="info-destino"></div>
+            
+            <h3>Usuarios Inscritos</h3>
+            <div id="usuarios-inscritos"></div>
+            
+            <h3>Guías Asignados</h3>
+            <div id="guias-destino"></div>
 
-                        <label for="precio">Precio (฿):</label>
-                        <input type="number" id="precio" name="precio" min="0" required>
+            <div class="acciones-destino">
+                <button onclick="editarDestino()">Modificar Destino</button>
+                <button onclick="eliminarDestino()" class="btn-eliminar">Eliminar Destino</button>
+            </div>
+        </section>
 
-                        <!-- Control booleano[cite: 1, 5] -->
-                        <label>
-                            <input type="checkbox" id="requiere_pasaporte" name="requiere_pasaporte">
-                            ¿Requiere Pasaporte?
-                        </label>
-                    </fieldset>
-
-                    <button type="submit" class="btn-cohete">Añadir Destino</button>
-                    <p id="mensaje-form"></p>
-                </form>
-            </section>
-        </div>
+        <section id="editar-destino" class="oculto">
+            <button onclick="volverDetalle()">← Volver</button>
+            <h2>Editar Destino</h2>
+            <form id="editarDestinoForm">
+                <input type="hidden" id="edit-id">
+                <div class="campo-formulario">
+                    <label for="edit-ciudad">Ciudad:</label>
+                    <input type="text" id="edit-ciudad" required>
+                </div>
+                <div class="campo-formulario">
+                    <label for="edit-pais">País:</label>
+                    <input type="text" id="edit-pais" required>
+                </div>
+                <div class="campo-formulario">
+                    <label for="edit-precio">Precio:</label>
+                    <input type="number" id="edit-precio" step="0.01" required>
+                </div>
+                <div class="campo-formulario">
+                    <label for="edit-requiere">
+                        <input type="checkbox" id="edit-requiere">
+                        ¿Requiere Pasaporte?
+                    </label>
+                </div>
+                <button type="submit">Guardar Cambios</button>
+            </form>
+            <p id="mensaje-edicion"></p>
+        </section>
     </main>
-
 
     <script src="api.js"></script>
     <script>
-        document.getElementById('form-destino').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const mensaje = document.getElementById('mensaje-form');
-
-            const destino = {
-                ciudad: document.getElementById('ciudad').value,
-                pais: document.getElementById('pais').value,
-                precio: parseFloat(document.getElementById('precio').value),
-                requierePasaporte: document.getElementById('requiere_pasaporte').checked
-            };
-
-            try {
-                await crearDestino(destino);
-                mensaje.textContent = '¡Destino añadido con éxito!';
-                mensaje.style.color = 'green';
-                document.getElementById('form-destino').reset();
-                cargarDestinos();
-            } catch (error) {
-                mensaje.textContent = 'Error al añadir destino.';
-                mensaje.style.color = 'red';
-            }
-        });
+        let destinoActual = null;
 
         async function cargarDestinos() {
-            const container = document.getElementById('destinosContainer');
+            const container = document.getElementById('destinos-container');
             try {
                 const destinos = await getDestinos();
                 container.innerHTML = '';
@@ -91,37 +91,151 @@
                     return;
                 }
 
-                destinos.forEach(destino => {
-                    const card = document.createElement('article');
-                    card.className = 'tarjeta-destino';
-                    card.innerHTML = `
-                        <section class="info-destino">
-                            <h3>${destino.ciudad}, ${destino.pais}</h3>
-                            <p class="precio">Desde ${destino.precio} ฿</p>
-                            <p>${destino.requierePasaporte ? 'Se requiere pasaporte' : 'No requiere pasaporte'}</p>
-                            <button type="button" class="btn-reserva" onclick="reservarDestino(${destino.id})">Reservar Plaza</button>
-                        </section>
+                const ul = document.createElement('ul');
+                ul.className = 'lista-elementos';
+                destinos.forEach(d => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>${d.ciudad}, ${d.pais}</strong> 
+                        - ${d.precio} ฿ 
+                        - ${d.requierePasaporte ? 'Requiere pasaporte' : 'Sin pasaporte'}
+                        <button onclick="verDetalle(${d.id})">Ver Detalle</button>
+                        <button onclick="eliminarDestinoDirecto(${d.id})" class="btn-eliminar">Eliminar</button>
                     `;
-                    container.appendChild(card);
+                    ul.appendChild(li);
                 });
+                container.appendChild(ul);
             } catch (error) {
                 container.innerHTML = '<p>Error al cargar destinos.</p>';
             }
         }
 
-        function reservarDestino(idDestino) {
-            window.location.href = 'inscribir.html?idDestino=' + idDestino;
+        async function verDetalle(id) {
+            try {
+                destinoActual = await getDestinoById(id);
+                document.getElementById('lista-destinos').classList.add('oculto');
+                document.getElementById('detalle-destino').classList.remove('oculto');
+
+                document.getElementById('info-destino').innerHTML = `
+                    <p><strong>Ciudad:</strong> ${destinoActual.ciudad}</p>
+                    <p><strong>País:</strong> ${destinoActual.pais}</p>
+                    <p><strong>Precio:</strong> ${destinoActual.precio} ฿</p>
+                    <p><strong>Requiere Pasaporte:</strong> ${destinoActual.requierePasaporte ? 'Sí' : 'No'}</p>
+                `;
+
+                const usuariosDiv = document.getElementById('usuarios-inscritos');
+                const guiasDiv = document.getElementById('guias-destino');
+
+                try {
+                    const usuarios = await getUsuariosPorDestino(id);
+                    if (usuarios.length > 0) {
+                        usuariosDiv.innerHTML = '<ul>' + usuarios.map(u => 
+                            `<li>${u.nombre} ${u.apellidos} - ${u.email}</li>`).join('') + '</ul>';
+                    } else {
+                        usuariosDiv.innerHTML = '<p>No hay usuarios inscritos.</p>';
+                    }
+                } catch (e) {
+                    usuariosDiv.innerHTML = '<p>No hay usuarios inscritos.</p>';
+                }
+
+                try {
+                    const guias = await getGuiasPorDestino(id);
+                    if (guias.length > 0) {
+                        guiasDiv.innerHTML = '<ul>' + guias.map(g => 
+                            `<li>${g.nombre} ${g.apellidos} - ${g.especialidad}</li>`).join('') + '</ul>';
+                    } else {
+                        guiasDiv.innerHTML = '<p>No hay guías asignados.</p>';
+                    }
+                } catch (e) {
+                    guiasDiv.innerHTML = '<p>No hay guías asignados.</p>';
+                }
+
+            } catch (error) {
+                alert('Error al cargar el destino');
+            }
+        }
+
+        function volverListado() {
+            document.getElementById('detalle-destino').classList.add('oculto');
+            document.getElementById('lista-destinos').classList.remove('oculto');
+            cargarDestinos();
+        }
+
+        function volverDetalle() {
+            document.getElementById('editar-destino').classList.add('oculto');
+            document.getElementById('detalle-destino').classList.remove('oculto');
+        }
+
+        function editarDestino() {
+            document.getElementById('detalle-destino').classList.add('oculto');
+            document.getElementById('editar-destino').classList.remove('oculto');
+
+            document.getElementById('edit-id').value = destinoActual.id;
+            document.getElementById('edit-ciudad').value = destinoActual.ciudad;
+            document.getElementById('edit-pais').value = destinoActual.pais;
+            document.getElementById('edit-precio').value = destinoActual.precio;
+            document.getElementById('edit-requiere').checked = destinoActual.requierePasaporte;
+        }
+
+        document.getElementById('editarDestinoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje-edicion');
+            
+            const destino = {
+                ciudad: document.getElementById('edit-ciudad').value,
+                pais: document.getElementById('edit-pais').value,
+                precio: parseFloat(document.getElementById('edit-precio').value),
+                requierePasaporte: document.getElementById('edit-requiere').checked
+            };
+
+            try {
+                await actualizarDestino(destinoActual.id, destino);
+                mensaje.textContent = '¡Destino actualizado!';
+                mensaje.style.color = 'green';
+                setTimeout(() => volverListado(), 1000);
+            } catch (error) {
+                mensaje.textContent = 'Error al actualizar.';
+                mensaje.style.color = 'red';
+            }
+        });
+
+        async function eliminarDestino() {
+            if (confirm('¿Estás seguro de eliminar este destino?')) {
+                try {
+                    await eliminarDestino(destinoActual.id);
+                    alert('Destino eliminado');
+                    volverListado();
+                } catch (error) {
+                    alert('Error al eliminar');
+                }
+            }
+        }
+
+        async function eliminarDestinoDirecto(id) {
+            if (confirm('¿Estás seguro de eliminar este destino?')) {
+                try {
+                    await eliminarDestino(id);
+                    cargarDestinos();
+                } catch (error) {
+                    alert('Error al eliminar');
+                }
+            }
         }
 
         cargarDestinos();
     </script>
 
+    <style>
+        .oculto { display: none; }
+        .lista-elementos { list-style: none; padding: 0; }
+        .lista-elementos li { padding: 10px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
+        .btn-eliminar { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        .acciones-destino { margin-top: 20px; }
+    </style>
+
     <footer>
-        <address>
-            <p>Galaxy Travel - Base Espacial Benidorm</p>
-            <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
-        </address>
-        <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
+        <p>&copy; 2026 Galaxy Travel - Terminal de Control de Pasajeros</p>
     </footer>
+
 </body>
 </html>
