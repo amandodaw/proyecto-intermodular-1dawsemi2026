@@ -15,7 +15,6 @@
                 <li><a href="destino.html">Destinos</a></li>
                 <li><a href="listados-destinos.html">Listados</a></li>
                 <li><a href="listados-usuarios.html">Usuarios</a></li>
-                <li><a href="crear-destino.html">Crear Destino</a></li>
                 <li><a href="crear-guia.html">Crear Guía</a></li>
                 <li><a href="registro.html">Registro</a></li>
                 <li><a href="inscribir.html">Inscribirse</a></li>
@@ -24,24 +23,78 @@
     </header>
 
     <main>
-        <section>
+        <section id="lista-usuarios">
             <h2>Listado de Usuarios</h2>
             <div id="usuarios-container">
                 <p>Cargando usuarios...</p>
             </div>
         </section>
 
-        <section id="detalle-usuario" class="oculto">
+        <section id="editar-usuario" class="oculto">
             <button onclick="volverListado()">← Volver al Listado</button>
-            <h2>Detalle del Usuario</h2>
-            <div id="info-usuario"></div>
-            <h3>Reservas del Usuario</h3>
-            <div id="reservas-usuario"></div>
+            <h2>Modificar Usuario</h2>
+            <form id="editarUsuarioForm">
+                <input type="hidden" id="edit-id">
+
+                <fieldset>
+                    <legend>Datos del Usuario</legend>
+
+                    <div class="campo-formulario">
+                        <label for="edit-nombre">Nombre:</label>
+                        <input type="text" id="edit-nombre" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="edit-apellidos">Apellidos:</label>
+                        <input type="text" id="edit-apellidos" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="edit-email">Email:</label>
+                        <input type="email" id="edit-email" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="edit-telefono">Teléfono:</label>
+                        <input type="tel" id="edit-telefono">
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="edit-fechaNacimiento">Fecha de Nacimiento:</label>
+                        <input type="date" id="edit-fechaNacimiento" required>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Pasaporte</legend>
+                    <p id="pasaporte-info">Carga los datos del usuario para ver su pasaporte.</p>
+
+                    <div class="campo-formulario">
+                        <label for="edit-numero-pasaporte">Número de Pasaporte:</label>
+                        <input type="text" id="edit-numero-pasaporte" placeholder="Dejar vacío para eliminar">
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="edit-pais-expedicion">País de Expedición:</label>
+                        <input type="text" id="edit-pais-expedicion">
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="edit-fecha-caducidad">Fecha de Caducidad:</label>
+                        <input type="date" id="edit-fecha-caducidad">
+                    </div>
+                </fieldset>
+
+                <button type="submit">Guardar Cambios</button>
+            </form>
+            <p id="mensaje-edicion"></p>
         </section>
     </main>
 
     <script src="api.js"></script>
     <script>
+        let usuarioActual = null;
+
         async function cargarUsuarios() {
             const container = document.getElementById('usuarios-container');
             try {
@@ -56,9 +109,14 @@
                 usuarios.forEach(u => {
                     const li = document.createElement('li');
                     li.innerHTML = `
-                        <strong>${u.nombre} ${u.apellidos}</strong> - ${u.email}
-                        ${u.pasaporte ? ' - Pasaporte: ' + u.pasaporte.numero : ' - Sin pasaporte'}
-                        <button onclick="verDetalle(${u.id})">Ver Detalle</button>
+                        <span>
+                            <strong>${u.nombre} ${u.apellidos}</strong> - ${u.email}
+                            ${u.pasaporte ? ' - Pasaporte: ' + u.pasaporte.numero : ' - Sin pasaporte'}
+                        </span>
+                        <span>
+                            <button onclick="editarUsuario(${u.id})">Modificar</button>
+                            <button onclick="eliminarUsuarioHandler(${u.id})" class="btn-eliminar">Eliminar</button>
+                        </span>
                     `;
                     ul.appendChild(li);
                 });
@@ -68,41 +126,85 @@
             }
         }
 
-        async function verDetalle(id) {
+        async function editarUsuario(id) {
             try {
-                const usuario = await getUsuarioById(id);
-                document.getElementById('usuarios-container').parentElement.classList.add('oculto');
-                document.getElementById('detalle-usuario').classList.remove('oculto');
+                usuarioActual = await getUsuarioById(id);
+                document.getElementById('lista-usuarios').classList.add('oculto');
+                document.getElementById('editar-usuario').classList.remove('oculto');
 
-                document.getElementById('info-usuario').innerHTML = `
-                    <p><strong>Nombre:</strong> ${usuario.nombre} ${usuario.apellidos}</p>
-                    <p><strong>Email:</strong> ${usuario.email}</p>
-                    <p><strong>Teléfono:</strong> ${usuario.telefono || 'No especificado'}</p>
-                    <p><strong>Fecha Nacimiento:</strong> ${usuario.fechaNacimiento || 'No especificada'}</p>
-                    <p><strong>Pasaporte:</strong> ${usuario.pasaporte ? usuario.pasaporte.numero + ' (' + usuario.pasaporte.paisExpedicion + ')' : 'No tiene'}</p>
-                `;
+                document.getElementById('edit-id').value = usuarioActual.id;
+                document.getElementById('edit-nombre').value = usuarioActual.nombre;
+                document.getElementById('edit-apellidos').value = usuarioActual.apellidos;
+                document.getElementById('edit-email').value = usuarioActual.email;
+                document.getElementById('edit-telefono').value = usuarioActual.telefono || '';
+                document.getElementById('edit-fechaNacimiento').value = usuarioActual.fechaNacimiento || '';
 
-                const reservasDiv = document.getElementById('reservas-usuario');
-                try {
-                    const reservas = await getReservasPorUsuario(id);
-                    if (reservas.length > 0) {
-                        reservasDiv.innerHTML = '<ul>' + reservas.map(r => 
-                            `<li>Destino ID: ${r.idDestino} - Fecha: ${r.fecha} - Precio: ${r.precioTotal} ฿</li>`
-                        ).join('') + '</ul>';
-                    } else {
-                        reservasDiv.innerHTML = '<p>No tiene reservas.</p>';
-                    }
-                } catch (e) {
-                    reservasDiv.innerHTML = '<p>No tiene reservas.</p>';
+                const infoPasaporte = document.getElementById('pasaporte-info');
+                if (usuarioActual.pasaporte) {
+                    infoPasaporte.textContent = 'Pasaporte existente. Modifica los datos o deja el número vacío para eliminar.';
+                    document.getElementById('edit-numero-pasaporte').value = usuarioActual.pasaporte.numero || '';
+                    document.getElementById('edit-pais-expedicion').value = usuarioActual.pasaporte.paisExpedicion || '';
+                    document.getElementById('edit-fecha-caducidad').value = usuarioActual.pasaporte.fechaCaducidad || '';
+                } else {
+                    infoPasaporte.textContent = 'El usuario no tiene pasaporte. Rellena los datos para crearlo.';
+                    document.getElementById('edit-numero-pasaporte').value = '';
+                    document.getElementById('edit-pais-expedicion').value = '';
+                    document.getElementById('edit-fecha-caducidad').value = '';
                 }
             } catch (error) {
                 alert('Error al cargar el usuario');
             }
         }
 
+        document.getElementById('editarUsuarioForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje-edicion');
+
+            const usuario = {
+                nombre: document.getElementById('edit-nombre').value,
+                apellidos: document.getElementById('edit-apellidos').value,
+                email: document.getElementById('edit-email').value,
+                telefono: document.getElementById('edit-telefono').value,
+                fechaNacimiento: document.getElementById('edit-fechaNacimiento').value
+            };
+
+            const numPasaporte = document.getElementById('edit-numero-pasaporte').value.trim();
+            if (numPasaporte) {
+                usuario.pasaporte = {
+                    numero: numPasaporte,
+                    paisExpedicion: document.getElementById('edit-pais-expedicion').value,
+                    fechaCaducidad: document.getElementById('edit-fecha-caducidad').value
+                };
+            } else if (usuarioActual && usuarioActual.pasaporte) {
+                usuario.pasaporte = null;
+            }
+
+            try {
+                await actualizarUsuario(usuarioActual.id, usuario);
+                mensaje.textContent = '¡Usuario actualizado con éxito!';
+                mensaje.style.color = 'green';
+                setTimeout(() => volverListado(), 1000);
+            } catch (error) {
+                mensaje.textContent = 'Error al actualizar.';
+                mensaje.style.color = 'red';
+            }
+        });
+
+        async function eliminarUsuarioHandler(id) {
+            if (!confirm('¿Estás seguro de eliminar este usuario? También se eliminarán su pasaporte y reservas.')) return;
+
+            try {
+                await eliminarUsuario(id);
+                cargarUsuarios();
+            } catch (error) {
+                alert('Error al eliminar el usuario');
+            }
+        }
+
         function volverListado() {
-            document.getElementById('detalle-usuario').classList.add('oculto');
-            document.getElementById('usuarios-container').parentElement.classList.remove('oculto');
+            document.getElementById('editar-usuario').classList.add('oculto');
+            document.getElementById('lista-usuarios').classList.remove('oculto');
+            document.getElementById('mensaje-edicion').textContent = '';
             cargarUsuarios();
         }
 
@@ -112,7 +214,20 @@
     <style>
         .oculto { display: none; }
         .lista-elementos { list-style: none; padding: 0; }
-        .lista-elementos li { padding: 10px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
+        .lista-elementos li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-eliminar { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        #pasaporte-info { margin-bottom: 15px; font-style: italic; color: #aaa; }
+        .campo-formulario { margin-bottom: 15px; }
+        .campo-formulario label { display: block; margin-bottom: 5px; }
+        .campo-formulario input { width: 100%; padding: 8px; }
     </style>
 
     <footer>

@@ -14,7 +14,7 @@
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="destino.html">Destinos</a></li>
                 <li><a href="listados-destinos.html">Listados</a></li>
-                <li><a href="crear-destino.html">Crear Destino</a></li>
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
                 <li><a href="crear-guia.html">Crear Guía</a></li>
                 <li><a href="registro.html">Registro</a></li>
                 <li><a href="inscribir.html">Inscribirse</a></li>
@@ -106,7 +106,7 @@
 
             try {
                 const usuario = await getUsuarioById(idUsuario);
-                
+
                 if (!usuario.pasaporte || !usuario.pasaporte.numero) {
                     mensaje.textContent = 'No puedes realizar la reserva. El usuario no tiene pasaporte válido.';
                     mensaje.style.color = 'red';
@@ -123,10 +123,13 @@
                     }
                 }
 
+                const destino = await getDestinoById(idDestino);
+
                 const reserva = {
                     idUsuario: idUsuario,
                     idDestino: idDestino,
-                    fecha: new Date().toISOString().split('T')[0]
+                    fecha: new Date().toISOString().split('T')[0],
+                    precioTotal: destino.precio
                 };
 
                 await crearReserva(reserva);

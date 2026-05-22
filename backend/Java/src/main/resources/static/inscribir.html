@@ -119,10 +119,13 @@
                     }
                 }
 
+                const destino = await getDestinoById(idDestino);
+
                 const reserva = {
                     idUsuario: idUsuario,
                     idDestino: idDestino,
-                    fecha: new Date().toISOString().split('T')[0]
+                    fecha: new Date().toISOString().split('T')[0],
+                    precioTotal: destino.precio
                 };
 
                 await crearReserva(reserva);

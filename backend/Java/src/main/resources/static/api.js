@@ -146,3 +146,20 @@ async function getUsuariosPorDestino(idDestino) {
     if (!response.ok) throw new Error('Error al obtener usuarios por destino');
     return await response.json();
 }
+
+async function actualizarUsuario(id, usuario) {
+    const response = await fetch(`${API_BASE}/api/usuario/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(usuario)
+    });
+    if (!response.ok) throw new Error('Error al actualizar usuario');
+    return await response.json();
+}
+
+async function eliminarUsuario(id) {
+    const response = await fetch(`${API_BASE}/api/usuario/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) throw new Error('Error al eliminar usuario');
+}
