@@ -13,11 +13,7 @@
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="destino.html">Destinos</a></li>
-                <li><a href="listados-destinos.html">Listados</a></li>
-                <li><a href="crear-destino.html">Crear Destino</a></li>
-                <li><a href="crear-guia.html">Crear Guía</a></li>
                 <li><a href="registro.html">Registro</a></li>
-                <li><a href="inscribir.html">Inscribirse</a></li>
             </ul>
         </nav>
     </header>
@@ -56,6 +52,11 @@
 
     <script src="api.js"></script>
     <script>
+        function getUrlParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+
         async function cargarUsuarios() {
             const select = document.getElementById('usuario');
             try {
@@ -70,11 +71,6 @@
                 document.getElementById('mensaje').textContent = 'Error al cargar usuarios.';
                 document.getElementById('mensaje').style.color = 'red';
             }
-        }
-
-        function getUrlParam(name) {
-            const params = new URLSearchParams(window.location.search);
-            return params.get(name);
         }
 
         async function cargarDestinos() {

@@ -26,12 +26,7 @@
             <div class="buscador-home">
                 <label for="buscar-destino">¿A dónde quieres viajar?</label>
                 <input type="text" id="buscar-destino" name="destino" list="planetas-list" placeholder="Ej: Marte...">
-                <datalist id="planetas-list">
-                    <option value="Marte">
-                    <option value="Saturno">
-                    <option value="Neptuno">
-                    <option value="Júpiter">
-                </datalist>
+                <datalist id="planetas-list"></datalist>
                 <button type="button" class="btn-reserva" onclick="buscarDestino()">Buscar Nave</button>
                 <div id="resultado-busqueda"></div>
             </div>
@@ -73,13 +68,24 @@
                     `;
                     container.appendChild(div);
                 });
+                llenarDatalist(destinos);
             } catch (e) {
                 container.innerHTML = '<p>Error al cargar destinos</p>';
             }
         }
 
+        function llenarDatalist(destinos) {
+            const datalist = document.getElementById('planetas-list');
+            datalist.innerHTML = '';
+            destinos.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = `${d.ciudad} (${d.pais})`;
+                datalist.appendChild(opt);
+            });
+        }
+
         async function buscarDestino() {
-            const termino = document.getElementById('buscar-destino').value.toLowerCase();
+            const termino = document.getElementById('buscar-destino').value.toLowerCase().trim();
             const resultado = document.getElementById('resultado-busqueda');
             
             if (!termino) {
@@ -89,10 +95,12 @@
 
             try {
                 const destinos = await getDestinos();
-                const coincidencias = destinos.filter(d => 
-                    d.ciudad.toLowerCase().includes(termino) || 
-                    d.pais.toLowerCase().includes(termino)
-                );
+                const coincidencias = destinos.filter(d => {
+                    const ciudad = d.ciudad.toLowerCase();
+                    const pais = d.pais.toLowerCase();
+                    return ciudad.includes(termino) || pais.includes(termino) ||
+                           termino.includes(ciudad) || termino.includes(pais);
+                });
 
                 if (coincidencias.length > 0) {
                     resultado.innerHTML = coincidencias.map(d => 
