@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GALAXY TRAVEL - CREAR GUÍA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
+                <li><a href="crear-destino.html">Crear destino</a></li>
+                <li><a href="crear-guia.html">Crear guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Crear Nuevo Guía</h2>
+            <p>Agrega un nuevo guía al sistema.</p>
+
+            <form id="guiaForm">
+                <fieldset>
+                    <legend>Datos del Guía</legend>
+                    
+                    <div class="campo-formulario">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Ej: Ana" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="apellidos">Apellidos:</label>
+                        <input type="text" id="apellidos" name="apellidos" placeholder="Ej: García" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="especialidad">Especialidad:</label>
+                        <select id="especialidad" name="especialidad" required>
+                            <option value="">-- Selecciona especialidad --</option>
+                            <option value="GEOGRAFIA">Geografía</option>
+                            <option value="HISTORIA">Historia</option>
+                            <option value="ARQUITECTURA">Arquitectura</option>
+                            <option value="COMIDA">Comida</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="destino">Destino (Opcional):</label>
+                        <select id="destino" name="destino">
+                            <option value="">-- Sin asignar --</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <button type="submit">Crear Guía</button>
+                    </div>
+                </fieldset>
+            </form>
+            <p id="mensaje"></p>
+        </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarDestinos() {
+            const select = document.getElementById('destino');
+            try {
+                const destinos = await getDestinos();
+                destinos.forEach(d => {
+                    const option = document.createElement('option');
+                    option.value = d.id;
+                    option.textContent = `${d.ciudad}, ${d.pais}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar destinos');
+            }
+        }
+
+        document.getElementById('guiaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje');
+            
+            const guia = {
+                nombre: document.getElementById('nombre').value,
+                apellidos: document.getElementById('apellidos').value,
+                especialidad: document.getElementById('especialidad').value
+            };
+
+            const idDestino = document.getElementById('destino').value;
+            if (idDestino) {
+                guia.idDestino = parseInt(idDestino);
+            }
+
+            try {
+                const creado = await crearGuia(guia);
+                mensaje.textContent = '¡Guía creado con éxito!';
+                mensaje.style.color = 'green';
+                document.getElementById('guiaForm').reset();
+            } catch (error) {
+                mensaje.textContent = 'Error al crear guía. Intenta de nuevo.';
+                mensaje.style.color = 'red';
+            }
+        });
+
+        cargarDestinos();
+    </script>
+
+    <footer>
+        <p>&copy; 2026 Galaxy Travel - Terminal de Control de Pasajeros</p>
+    </footer>
+
+</body>
+</html>

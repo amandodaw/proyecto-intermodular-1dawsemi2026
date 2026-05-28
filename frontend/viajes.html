@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALAXY TRAVEL - TODOS LOS VIAJES</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="images/logo.png" alt="Logo Galaxy Travel" class="logo-icono">
+            <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
+                <li><a href="crear-destino.html">Crear destino</a></li>
+                <li><a href="crear-guia.html">Crear guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="seccion-fondo-universo">
+            <section class="top-viajes">
+                <h2>Catálogo Completo de Viajes</h2>
+                <div class="grid-excursiones" id="catalogo-viajes">
+                    <p>Cargando viajes...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarViajes() {
+            const container = document.getElementById('catalogo-viajes');
+            try {
+                const destinos = await getDestinos();
+                container.innerHTML = '';
+
+                if (destinos.length === 0) {
+                    container.innerHTML = '<p>No hay viajes disponibles.</p>';
+                    return;
+                }
+
+                destinos.forEach(d => {
+                    const card = document.createElement('a');
+                    card.href = `inscribir.html?idDestino=${d.id}`;
+                    card.className = 'card-link';
+                    card.innerHTML = `
+                        <article class="card-excursion">
+                            <h3>${d.ciudad}</h3>
+                            <p><strong>Planeta:</strong> ${d.pais}</p>
+                            <p><strong>Precio base:</strong> ${d.precio} ฿</p>
+                            <p>${d.requierePasaporte ? 'Requiere pasaporte' : 'No requiere pasaporte'}</p>
+                        </article>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                container.innerHTML = '<p>Error al cargar los viajes.</p>';
+            }
+        }
+
+        cargarViajes();
+    </script>
+
+    <footer>
+        <address>
+            <p>Galaxy Travel - Base Espacial Benidorm</p>
+            <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
+        </address>
+        <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
+    </footer>
+</body>
+</html>

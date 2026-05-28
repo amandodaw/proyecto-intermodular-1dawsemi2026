@@ -2,33 +2,52 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALAXY TRAVEL - INICIO</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
     <header>
-    <h1 class="logo-futurista">GALAXY TRAVEL</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="destino.html">Destinos</a></li>
-            <li><a href="registro.html">Registro</a></li>
-        </ul>
-    </nav>
-</header>
-<main>
+        <div class="header-logo">
+            <img src="images/logo.png" alt="Logo Galaxy Travel" class="logo-icono">
+            <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
+                <li><a href="crear-destino.html">Crear destino</a></li>
+                <li><a href="crear-guia.html">Crear guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
         <section class="bienvenida">
             <h2>EL FUTURO DE TUS VIAJES COMIENZA AQUÍ</h2>
             <p>Reserva tu próximo salto hiperespacial con la agencia líder en el sector.</p>
             
-            <div class="buscador-home">
+            <form class="buscador-home">
                 <label for="buscar-destino">¿A dónde quieres viajar?</label>
-                <input type="text" id="buscar-destino" name="destino" placeholder="Escribe una ciudad...">
+                <input type="text" id="buscar-destino" name="destino" list="planetas-list" placeholder="Escribe una ciudad...">
+                <datalist id="planetas-list"></datalist>
                 <button type="button" class="btn-reserva" onclick="buscarDestino()">Buscar Nave</button>
                 <div id="resultado-busqueda"></div>
-            </div>
+            </form>
         </section>
+
+        
+        <div class="seccion-fondo-universo">
+    <section class="top-viajes">
+        <h2>Los 4 viajes más solicitados</h2>
+        <div class="grid-excursiones" id="top-destinos">
+            <p>Cargando destinos...</p>
+        </div>
+    </section>
+</div>
 
         <section class="detalles-agencia">
             <article>
@@ -42,10 +61,60 @@
         </section>
     </main>
 
+    <!-- JavaScript-->
     <script src="api.js"></script>
     <script>
+        async function cargarDestinosGlobal() {
+            try {
+                const destinos = await getDestinos();
+                return destinos;
+            } catch {
+                return [];
+            }
+        }
+
+        function llenarDatalist(destinos) {
+            const datalist = document.getElementById('planetas-list');
+            datalist.innerHTML = '';
+            destinos.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = `${d.ciudad} (${d.pais})`;
+                datalist.appendChild(opt);
+            });
+        }
+
+        function renderizarTopDestinos(destinos) {
+            const container = document.getElementById('top-destinos');
+            if (destinos.length === 0) {
+                container.innerHTML = '<p>No hay destinos disponibles.</p>';
+                return;
+            }
+            container.innerHTML = '';
+            const top4 = destinos.slice(0, 4);
+            top4.forEach(d => {
+                const a = document.createElement('a');
+                    a.href = `inscribir.html?idDestino=${d.id}`;
+                a.className = 'card-link';
+                a.innerHTML = `
+                    <article class="card-excursion">
+                        <h3>${d.ciudad}</h3>
+                        <p>Planeta: ${d.pais}</p>
+                        <p><strong>Precio:</strong> ${d.precio} ฿</p>
+                        <p>${d.requierePasaporte ? 'Requiere pasaporte' : 'No requiere pasaporte'}</p>
+                    </article>
+                `;
+                container.appendChild(a);
+            });
+        }
+
+        async function iniciar() {
+            const destinos = await cargarDestinosGlobal();
+            renderizarTopDestinos(destinos);
+            llenarDatalist(destinos);
+        }
+
         async function buscarDestino() {
-            const termino = document.getElementById('buscar-destino').value.toLowerCase();
+            const termino = document.getElementById('buscar-destino').value.toLowerCase().trim();
             const resultado = document.getElementById('resultado-busqueda');
             
             if (!termino) {
@@ -55,10 +124,12 @@
 
             try {
                 const destinos = await getDestinos();
-                const coincidencias = destinos.filter(d => 
-                    d.ciudad.toLowerCase().includes(termino) || 
-                    d.pais.toLowerCase().includes(termino)
-                );
+                const coincidencias = destinos.filter(d => {
+                    const ciudad = d.ciudad.toLowerCase();
+                    const pais = d.pais.toLowerCase();
+                    return ciudad.includes(termino) || pais.includes(termino) ||
+                           termino.includes(ciudad) || termino.includes(pais);
+                });
 
                 if (coincidencias.length > 0) {
                     resultado.innerHTML = coincidencias.map(d => 
@@ -73,14 +144,18 @@
         }
 
         function reservar(id) {
-            window.location.href = 'destino.html';
+            window.location.href = 'inscribir.html?idDestino=' + id;
         }
+
+        iniciar();
     </script>
 
     <footer>
+        <address>
+            <p>Galaxy Travel - Base Espacial Benidorm</p>
+            <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
+        </address>
         <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
     </footer>
-
-
 </body>
 </html>

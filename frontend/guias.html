@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALAXY TRAVEL - ALTA DE GUÍAS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="images/logo.png" alt="Logo Galaxy Travel" class="logo-icono">
+            <h1 class="logo-futurista">GALAXY TRAVEL</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destino.html">Destinos</a></li>
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
+                <li><a href="crear-destino.html">Crear destino</a></li>
+                <li><a href="crear-guia.html">Crear guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="seccion-fondo-universo">
+            <section class="contenedor-formulario">
+                <form id="form-guia" action="/api/guia" method="POST">
+                    <fieldset>
+                        <legend>Alta de Guía Interplanetario</legend>
+                        <label for="nombre-guia">Nombre:</label>
+                        <input type="text" id="nombre-guia" name="nombre" required>
+
+                        <label for="apellidos-guia">Apellidos:</label>
+                        <input type="text" id="apellidos-guia" name="apellidos" required>
+
+                        <label for="especialidad">Especialidad:</label>
+                        <!-- Uso de Select para el Enumerado[cite: 1, 5] -->
+                        <select id="especialidad" name="especialidad" required>
+                            <option value="">--Seleccione una especialidad--</option>
+                            <option value="GEOGRAFIA">Geografía</option>
+                            <option value="HISTORIA">Historia</option>
+                            <option value="ARQUITECTURA">Arquitectura</option>
+                            <option value="COMIDA">Comida</option>
+                        </select>
+                    </fieldset>
+
+                    <button type="submit" class="btn-cohete">Registrar Guía</button>
+                    <p id="mensaje"></p>
+                </form>
+            </section>
+
+            <section class="top-viajes">
+                <h2>Guías Registrados</h2>
+                <div id="guias-container" class="grid-excursiones">
+                    <p>Cargando guías...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarGuias() {
+            const container = document.getElementById('guias-container');
+            try {
+                const guias = await getGuias();
+                container.innerHTML = '';
+
+                if (guias.length === 0) {
+                    container.innerHTML = '<p>No hay guías registrados.</p>';
+                    return;
+                }
+
+                guias.forEach(g => {
+                    const card = document.createElement('article');
+                    card.className = 'card-excursion';
+                    card.innerHTML = `
+                        <h3>${g.nombre} ${g.apellidos}</h3>
+                        <p><strong>Especialidad:</strong> ${g.especialidad}</p>
+                        <p><strong>Destino:</strong> ${g.idDestino ? 'ID ' + g.idDestino : 'Sin asignar'}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                container.innerHTML = '<p>Error al cargar guías.</p>';
+            }
+        }
+
+        document.getElementById('form-guia').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje');
+
+            const guia = {
+                nombre: document.getElementById('nombre-guia').value,
+                apellidos: document.getElementById('apellidos-guia').value,
+                especialidad: document.getElementById('especialidad').value
+            };
+
+            try {
+                await crearGuia(guia);
+                mensaje.textContent = '¡Guía registrado con éxito!';
+                mensaje.style.color = 'green';
+                document.getElementById('form-guia').reset();
+                cargarGuias();
+            } catch (error) {
+                mensaje.textContent = 'Error al registrar guía. Intenta de nuevo.';
+                mensaje.style.color = 'red';
+            }
+        });
+
+        cargarGuias();
+    </script>
+
+    <footer>
+        <address>
+            <p>Galaxy Travel - Base Espacial Benidorm</p>
+            <p>Contacto: <a href="mailto:info@galaxytravel.com">info@galaxytravel.com</a></p>
+        </address>
+        <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>
+    </footer>
+</body>
+</html>
