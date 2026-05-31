@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALAXY TRAVEL - INICIO</title>
     <link rel="stylesheet" href="styles.css">
 
@@ -25,13 +26,16 @@
             <div class="buscador-home">
                 <label for="buscar-destino">¿A dónde quieres viajar?</label>
                 <input type="text" id="buscar-destino" name="destino" list="planetas-list" placeholder="Ej: Marte...">
-                <datalist id="planetas-list">
-                    <option value="Marte">
-                    <option value="Saturno">
-                    <option value="Neptuno">
-                    <option value="Alfa Centauri">
-                </datalist>
-                <button type="submit" class="btn-reserva">Buscar Nave</button>
+                <datalist id="planetas-list"></datalist>
+                <button type="button" class="btn-reserva" onclick="buscarDestino()">Buscar Nave</button>
+                <div id="resultado-busqueda"></div>
+            </div>
+        </section>
+
+        <section class="destinos-destacados">
+            <h2>Destinos Disponibles</h2>
+            <div id="lista-destinos" class="contenedor-destinos">
+                <p>Cargando destinos...</p>
             </div>
         </section>
 
@@ -46,6 +50,72 @@
             </article>
         </section>
     </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarDestinos() {
+            const container = document.getElementById('lista-destinos');
+            try {
+                const destinos = await getDestinos();
+                container.innerHTML = '';
+                destinos.forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'tarjeta-destino';
+                    div.innerHTML = `
+                        <h3>${d.ciudad}, ${d.pais}</h3>
+                        <p>Desde ${d.precio} ฿</p>
+                        <p>${d.requierePasaporte ? 'Requiere pasaporte' : 'No requiere pasaporte'}</p>
+                    `;
+                    container.appendChild(div);
+                });
+                llenarDatalist(destinos);
+            } catch (e) {
+                container.innerHTML = '<p>Error al cargar destinos</p>';
+            }
+        }
+
+        function llenarDatalist(destinos) {
+            const datalist = document.getElementById('planetas-list');
+            datalist.innerHTML = '';
+            destinos.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = `${d.ciudad} (${d.pais})`;
+                datalist.appendChild(opt);
+            });
+        }
+
+        async function buscarDestino() {
+            const termino = document.getElementById('buscar-destino').value.toLowerCase().trim();
+            const resultado = document.getElementById('resultado-busqueda');
+            
+            if (!termino) {
+                resultado.innerHTML = '<p>Por favor, introduce un destino.</p>';
+                return;
+            }
+
+            try {
+                const destinos = await getDestinos();
+                const coincidencias = destinos.filter(d => {
+                    const ciudad = d.ciudad.toLowerCase();
+                    const pais = d.pais.toLowerCase();
+                    return ciudad.includes(termino) || pais.includes(termino) ||
+                           termino.includes(ciudad) || termino.includes(pais);
+                });
+
+                if (coincidencias.length > 0) {
+                    resultado.innerHTML = coincidencias.map(d => 
+                        `<p><strong>${d.ciudad}, ${d.pais}</strong> - Desde ${d.precio} ฿</p>`
+                    ).join('');
+                } else {
+                    resultado.innerHTML = '<p>No se encontraron destinos.</p>';
+                }
+            } catch (error) {
+                resultado.innerHTML = '<p>Error al buscar destinos.</p>';
+            }
+        }
+
+        cargarDestinos();
+    </script>
 
     <footer>
         <p>&copy; 2026 Galaxy Travel. Todos los derechos reservados &reg;</p>

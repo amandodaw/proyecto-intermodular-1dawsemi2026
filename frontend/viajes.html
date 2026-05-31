@@ -15,63 +15,61 @@
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="registro.html">Registro</a></li>
-                <li><a href="viajes.html">Viajes</a></li>
                 <li><a href="destino.html">Destinos</a></li>
-                <li><a href="guias.html">Guías</a></li>
-                
+                <li><a href="listados-usuarios.html">Usuarios</a></li>
+                <li><a href="crear-destino.html">Crear destino</a></li>
+                <li><a href="crear-guia.html">Crear guía</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="inscribir.html">Inscribirse</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <!-- Envolvemos todo el catálogo en el fondo del universo -->
         <div class="seccion-fondo-universo">
             <section class="top-viajes">
                 <h2>Catálogo Completo de Viajes</h2>
-                
-                <div class="grid-excursiones">
-                    <!-- Tarjeta 1 -->
-                    <a href="destino.html?id=1" class="card-link">
-                        <article class="card-excursion">
-                            <h3>Ciudad Ares</h3>
-                            <p><strong>Planeta:</strong> Marte</p>
-                            <p><strong>Duración:</strong> 15 Días Terrestres</p>
-                            <p><strong>Clima:</strong> Controlado en cúpula (22ºC)</p>
-                            <p><strong>Precio base:</strong> 4.500 ฿</p>
-                            <p><strong>Guía:</strong> Cap. Nebulosa</p>
-                        </article>
-                    </a>
-
-                    <!-- Tarjeta 2 -->
-                    <a href="destino.html?id=2" class="card-link">
-                        <article class="card-excursion">
-                            <h3>Titán Prime</h3>
-                            <p><strong>Planeta:</strong> Saturno (Luna)</p>
-                            <p><strong>Duración:</strong> 30 Días Terrestres</p>
-                            <p><strong>Clima:</strong> Exterior gélido (-179ºC)</p>
-                            <p><strong>Precio base:</strong> 8.200 ฿</p>
-                            <p><strong>Guía:</strong> Dra. Estelar</p>
-                        </article>
-                    </a>
-
-                    <!-- Tarjeta 3 -->
-                    <a href="destino.html?id=3" class="card-link">
-                        <article class="card-excursion">
-                            <h3>Estación Poseidón</h3>
-                            <p><strong>Planeta:</strong> Neptuno</p>
-                            <p><strong>Duración:</strong> 45 Días Terrestres</p>
-                            <p><strong>Clima:</strong> Orbital / Gravedad cero</p>
-                            <p><strong>Precio base:</strong> 12.000 ฿</p>
-                            <p><strong>Guía:</strong> Cmd. Viento</p>
-                        </article>
-                    </a>
-                    
-                    <!-- Puedes añadir el resto de los viajes aquí siguiendo la misma estructura -->
+                <div class="grid-excursiones" id="catalogo-viajes">
+                    <p>Cargando viajes...</p>
                 </div>
             </section>
         </div>
     </main>
+
+    <script src="api.js"></script>
+    <script>
+        async function cargarViajes() {
+            const container = document.getElementById('catalogo-viajes');
+            try {
+                const destinos = await getDestinos();
+                container.innerHTML = '';
+
+                if (destinos.length === 0) {
+                    container.innerHTML = '<p>No hay viajes disponibles.</p>';
+                    return;
+                }
+
+                destinos.forEach(d => {
+                    const card = document.createElement('a');
+                    card.href = `inscribir.html?idDestino=${d.id}`;
+                    card.className = 'card-link';
+                    card.innerHTML = `
+                        <article class="card-excursion">
+                            <h3>${d.ciudad}</h3>
+                            <p><strong>Planeta:</strong> ${d.pais}</p>
+                            <p><strong>Precio base:</strong> ${d.precio} ฿</p>
+                            <p>${d.requierePasaporte ? 'Requiere pasaporte' : 'No requiere pasaporte'}</p>
+                        </article>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                container.innerHTML = '<p>Error al cargar los viajes.</p>';
+            }
+        }
+
+        cargarViajes();
+    </script>
 
     <footer>
         <address>
