@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto Intermodular - Agencia de Viajes" company="1º DAW - IES San Vicente" webLink="" view-date="2026-04-15" view-index="0" gantt-divider-location="320" resource-divider-location="300" version="3.3.3309" locale="es">
+    <description><![CDATA[Aplicación web de gestión de agencia de viajes. Full Stack: JavaScript Vanilla + Spring Boot + JDBC + H2.]]></description>
+    <view zooming-state="default:4" id="gantt-chart">
+        <field id="tpd3" name="Name" width="320" order="0"/>
+        <field id="tpd4" name="Begin date" width="95" order="1"/>
+        <field id="tpd5" name="End date" width="95" order="2"/>
+        <field id="tpd12" name="Cost" width="70" order="3"/>
+        <field id="tpd6" name="Duration" width="65" order="4"/>
+        <field id="tpd7" name="Completion" width="65" order="5"/>
+        <timeline><![CDATA[46]]></timeline>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="180" order="0"/>
+        <field id="1" name="Default role" width="160" order="1"/>
+        <field id="2" name="Standard rate" width="90" order="2"/>
+    </view>
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+            <taskproperty id="tpd10" name="ID" type="default" valuetype="int"/>
+            <taskproperty id="tpd11" name="Web Link" type="default" valuetype="text"/>
+            <taskproperty id="tpd12" name="cost" type="default" valuetype="int"/>
+        </taskproperties>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 1: INICIALIZACIÓN DEL PROYECTO
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="1" uid="f1a00001-0000-4000-8000-000000000001" name="Fase 1: Inicialización del proyecto" color="#4a90d9" meeting="false" start="2026-04-15" duration="2" complete="100" expand="true" cost-manual-value="624" cost-calculated="false">
+            <task id="2" uid="f1a00002-0000-4000-8000-000000000002" name="Configuración del repositorio Git" color="#4a90d9" meeting="false" start="2026-04-15" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Commit ec18450 - README inicial con instrucciones de clonado y configuración del repositorio]]></notes>
+            </task>
+            <task id="3" uid="f1a00003-0000-4000-8000-000000000003" name="Creación de estructura de directorios" color="#4a90d9" meeting="false" start="2026-04-15" duration="1" complete="100" expand="false" cost-manual-value="160" cost-calculated="false">
+                <notes><![CDATA[Commits b2c273c, 1048d25 - Directorios backend, frontend, docs y .gitignore]]></notes>
+            </task>
+            <task id="4" uid="f1a00004-0000-4000-8000-000000000004" name="Configuración inicial de Maven (pom.xml)" color="#4a90d9" meeting="false" start="2026-04-15" duration="1" complete="100" expand="false" cost-manual-value="160" cost-calculated="false">
+                <notes><![CDATA[Configuración de Spring Boot, dependencias JDBC y H2 en pom.xml]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 2: BACKEND - CAPA DE ENTIDADES
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="5" uid="f1a00005-0000-4000-8000-000000000005" name="Fase 2: Backend - Capa de Entidades" color="#e67e22" meeting="false" start="2026-04-16" duration="3" complete="100" expand="true" cost-manual-value="960" cost-calculated="false">
+            <task id="6" uid="f1a00006-0000-4000-8000-000000000006" name="Modelado de la entidad Destino" color="#e67e22" meeting="false" start="2026-04-16" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit a3fea74 - Entidad Destino con mapResultSets]]></notes>
+            </task>
+            <task id="7" uid="f1a00007-0000-4000-8000-000000000007" name="Modelado de la entidad Guía y enum Especialidad" color="#e67e22" meeting="false" start="2026-04-16" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit 836f156 - Entidad Guía y enum Especialidad]]></notes>
+            </task>
+            <task id="8" uid="f1a00008-0000-4000-8000-000000000008" name="Modelado de la entidad Reserva" color="#e67e22" meeting="false" start="2026-04-16" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit b7a9d9f - Entidad Reserva. Capa de entidades completa.]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 3: BACKEND - CAPA DE REPOSITORIOS
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="9" uid="f1a00009-0000-4000-8000-000000000009" name="Fase 3: Backend - Capa de Repositorios" color="#e67e22" meeting="false" start="2026-04-20" duration="4" complete="100" expand="true" cost-manual-value="1280" cost-calculated="false">
+            <task id="10" uid="f1a00010-0000-4000-8000-000000000010" name="Diseño del esquema SQL (schema.sql)" color="#e67e22" meeting="false" start="2026-04-20" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit c0cee2e - Sentencias DDL para tablas Destino, Guía, Reserva y Viaje]]></notes>
+            </task>
+            <task id="11" uid="f1a00011-0000-4000-8000-000000000011" name="Datos de ejemplo (data.sql)" color="#e67e22" meeting="false" start="2026-04-20" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit c0cee2e - Población inicial de la BD con datos de ejemplo]]></notes>
+            </task>
+            <task id="12" uid="f1a00012-0000-4000-8000-000000000012" name="Implementación de DestinoRepository" color="#e67e22" meeting="false" start="2026-04-20" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commits 69c8a4c, ff64a58 - Repositorio JDBC para Destino]]></notes>
+            </task>
+            <task id="13" uid="f1a00013-0000-4000-8000-000000000013" name="Implementación de GuiaRepository" color="#e67e22" meeting="false" start="2026-04-21" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit 00bd0b0 - Repositorio JDBC para Guía]]></notes>
+            </task>
+            <task id="14" uid="f1a00014-0000-4000-8000-000000000014" name="Implementación de ReservaRepository" color="#e67e22" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit 8575ebc - Repositorio JDBC para Reserva. Capa completa.]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 4: BACKEND - CAPA DE SERVICIOS
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="15" uid="f1a00015-0000-4000-8000-000000000015" name="Fase 4: Backend - Capa de Servicios" color="#e67e22" meeting="false" start="2026-04-22" duration="2" complete="100" expand="true" cost-manual-value="640" cost-calculated="false">
+            <task id="16" uid="f1a00016-0000-4000-8000-000000000016" name="Implementación de GuiaService" color="#e67e22" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit ea7b73d - Lógica de negocio para Guía]]></notes>
+            </task>
+            <task id="17" uid="f1a00017-0000-4000-8000-000000000017" name="Implementación de ReservaService" color="#e67e22" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit b9a8872 - Lógica de negocio para Reserva con TransactionalOperation]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 5: BACKEND - CAPA DE CONTROLADORES Y PRUEBAS
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="18" uid="f1a00018-0000-4000-8000-000000000018" name="Fase 5: Backend - Capa de Controladores" color="#e67e22" meeting="false" start="2026-04-22" duration="2" complete="100" expand="true" cost-manual-value="1280" cost-calculated="false">
+            <task id="19" uid="f1a00019-0000-4000-8000-000000000019" name="Implementación de DestinoController" color="#e67e22" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit 25feb88 - Endpoints CRUD para Destino]]></notes>
+            </task>
+            <task id="20" uid="f1a00020-0000-4000-8000-000000000020" name="Implementación de GuiaController" color="#e67e22" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit fa2420f - Endpoints CRUD para Guía]]></notes>
+            </task>
+            <task id="21" uid="f1a00021-0000-4000-8000-000000000021" name="Implementación de ReservaController" color="#e67e22" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit d9d60f6 - Endpoints CRUD para Reserva]]></notes>
+            </task>
+            <task id="22" uid="f1a00022-0000-4000-8000-000000000022" name="Pruebas y validación del backend" color="#27ae60" meeting="false" start="2026-04-22" duration="1" complete="100" expand="false" cost-manual-value="320" cost-calculated="false">
+                <notes><![CDATA[Commit a9fe820 - Backend completo probado y mergeado a develop]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 6: FRONTEND - MAQUETACIÓN (HTML + CSS)
+             Responsable: Juan José León Carmona
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="23" uid="f1a00023-0000-4000-8000-000000000023" name="Fase 6: Frontend - Maquetación (HTML + CSS)" color="#9b59b6" meeting="false" start="2026-04-23" duration="20" complete="100" expand="true" cost-manual-value="1920" cost-calculated="false">
+            <task id="24" uid="f1a00024-0000-4000-8000-000000000024" name="Wireframes y prototipado de la interfaz" color="#9b59b6" meeting="false" start="2026-04-23" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[Bocetos y wireframes de las vistas: listado, detalle, formularios]]></notes>
+            </task>
+            <task id="25" uid="f1a00025-0000-4000-8000-000000000025" name="Estructura HTML semántica (index.html)" color="#9b59b6" meeting="false" start="2026-04-25" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[Maquetación de la estructura base con etiquetas semánticas HTML5]]></notes>
+            </task>
+            <task id="26" uid="f1a00026-0000-4000-8000-000000000026" name="Estilos CSS de layout y componentes" color="#9b59b6" meeting="false" start="2026-04-28" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[CSS Grid/Flexbox para layout general, estilos de tarjetas, tabla y botones]]></notes>
+            </task>
+            <task id="27" uid="f1a00027-0000-4000-8000-000000000027" name="Diseño responsive (tablet y móvil)" color="#9b59b6" meeting="false" start="2026-04-30" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[Adaptación de la interfaz a distintos tamaños de pantalla con media queries]]></notes>
+            </task>
+            <task id="28" uid="f1a00028-0000-4000-8000-000000000028" name="Barra de navegación y footer" color="#9b59b6" meeting="false" start="2026-05-04" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[Diseño e implementación de sistema de navegación y pie de página]]></notes>
+            </task>
+            <task id="29" uid="f1a00029-0000-4000-8000-000000000029" name="Estilos de formularios y botones" color="#9b59b6" meeting="false" start="2026-05-06" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[Estilizado de inputs, selects, botones y validaciones visuales]]></notes>
+            </task>
+            <task id="30" uid="f1a00030-0000-4000-8000-000000000030" name="Animaciones y transiciones CSS" color="#9b59b6" meeting="false" start="2026-05-10" duration="2" complete="100" expand="false" cost-manual-value="256" cost-calculated="false">
+                <notes><![CDATA[Efectos hover, transiciones suaves, animaciones de carga]]></notes>
+            </task>
+            <task id="31" uid="f1a00031-0000-4000-8000-000000000031" name="Refinamiento final y ajustes de interfaz" color="#9b59b6" meeting="false" start="2026-05-14" duration="3" complete="100" expand="false" cost-manual-value="384" cost-calculated="false">
+                <notes><![CDATA[Commit 695e0ea - Mejoras visuales finales y pulido de la interfaz]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 7: FRONTEND - LÓGICA JAVASCRIPT
+             Responsable: Amando Cuenca Carabia
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="32" uid="f1a00032-0000-4000-8000-000000000032" name="Fase 7: Frontend - JavaScript Vanilla" color="#2ecc71" meeting="false" start="2026-05-18" duration="8" complete="100" expand="true" cost-manual-value="1728" cost-calculated="false">
+            <task id="33" uid="f1a00033-0000-4000-8000-000000000033" name="Implementación de fetch API y configuración de cliente HTTP" color="#2ecc71" meeting="false" start="2026-05-18" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Commit 7e76f75 - Funciones base para peticiones GET/POST a API REST]]></notes>
+            </task>
+            <task id="34" uid="f1a00034-0000-4000-8000-000000000034" name="Renderizado dinámico de tabla de destinos" color="#2ecc71" meeting="false" start="2026-05-18" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Creación dinámica de filas de tabla con datos de Destino desde la API]]></notes>
+            </task>
+            <task id="35" uid="f1a00035-0000-4000-8000-000000000035" name="Vista de detalle de destino" color="#2ecc71" meeting="false" start="2026-05-19" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Información detallada del destino con listado de viajes asociados]]></notes>
+            </task>
+            <task id="36" uid="f1a00036-0000-4000-8000-000000000036" name="Lógica de formularios (crear/editar)" color="#2ecc71" meeting="false" start="2026-05-19" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Formularios para creación y edición de destinos con validación de campos]]></notes>
+            </task>
+            <task id="37" uid="f1a00037-0000-4000-8000-000000000037" name="Conexión con base de datos y operaciones CRUD completas" color="#2ecc71" meeting="false" start="2026-05-21" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Commit b277a20 - Integración completa de CRUD desde JavaScript]]></notes>
+            </task>
+            <task id="38" uid="f1a00038-0000-4000-8000-000000000038" name="Buscador de destinos con autocompletado" color="#2ecc71" meeting="false" start="2026-05-21" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Popup de búsqueda de destinos por nombre con filtrado en tiempo real]]></notes>
+            </task>
+            <task id="39" uid="f1a00039-0000-4000-8000-000000000039" name="Gestión de reservas desde el frontend" color="#2ecc71" meeting="false" start="2026-05-22" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Commit 9f206f9 - Interfaz de creación de reservas y validación de fechas]]></notes>
+            </task>
+            <task id="40" uid="f1a00040-0000-4000-8000-000000000040" name="Visualización de usuarios inscritos por destino" color="#2ecc71" meeting="false" start="2026-05-22" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Commit 41635cd - getUsuariosPorDestino() y corrección de bug de filtrado]]></notes>
+            </task>
+            <task id="41" uid="f1a00041-0000-4000-8000-000000000041" name="Manejo de errores y feedback visual" color="#2ecc71" meeting="false" start="2026-05-22" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Notificaciones de éxito/error, estados de carga y manejo de excepciones]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             FASE 8: DOCUMENTACIÓN Y CIERRE
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="42" uid="f1a00042-0000-4000-8000-000000000042" name="Fase 8: Documentación y cierre" color="#f1c40f" meeting="false" start="2026-05-28" duration="4" complete="100" expand="true" cost-manual-value="656" cost-calculated="false">
+            <task id="43" uid="f1a00043-0000-4000-8000-000000000043" name="Redacción de la documentación técnica" color="#f1c40f" meeting="false" start="2026-05-28" duration="1" complete="100" expand="false" cost-manual-value="160" cost-calculated="false">
+                <notes><![CDATA[Commit c0355ab - README con descripción, requisitos, instrucciones de arranque y endpoints]]></notes>
+            </task>
+            <task id="44" uid="f1a00044-0000-4000-8000-000000000044" name="Actualización del diagrama de Gantt" color="#f1c40f" meeting="false" start="2026-05-28" duration="1" complete="100" expand="false" cost-manual-value="144" cost-calculated="false">
+                <notes><![CDATA[Archivo gantt-project.gan - Planificación y seguimiento del proyecto]]></notes>
+            </task>
+            <task id="45" uid="f1a00045-0000-4000-8000-000000000045" name="Revisión del README y detalles técnicos" color="#f1c40f" meeting="false" start="2026-05-31" duration="1" complete="100" expand="false" cost-manual-value="176" cost-calculated="false">
+                <notes><![CDATA[Commit 9ab4f69 - Revisión de descripción del proyecto y tecnologías]]></notes>
+            </task>
+            <task id="46" uid="f1a00046-0000-4000-8000-000000000046" name="Limpieza y organización del repositorio" color="#f1c40f" meeting="false" start="2026-05-31" duration="1" complete="100" expand="false" cost-manual-value="176" cost-calculated="false">
+                <notes><![CDATA[Commit 88bbd98 - Eliminación de carpeta vacía database]]></notes>
+            </task>
+        </task>
+        <!-- ════════════════════════════════════════════════════════════════
+             HITOS
+             ════════════════════════════════════════════════════════════════ -->
+        <task id="47" uid="f1a00047-0000-4000-8000-000000000047" name="Hito: Inicio del proyecto" color="#ff0000" meeting="true" start="2026-04-15" duration="0" complete="100" expand="false" cost-manual-value="0" cost-calculated="false"/>
+        <task id="48" uid="f1a00048-0000-4000-8000-000000000048" name="Hito: Backend completado" color="#ff0000" meeting="true" start="2026-04-22" duration="0" complete="100" expand="false" cost-manual-value="0" cost-calculated="false">
+            <notes><![CDATA[Merge a develop con entidades, repositorios, servicios y controladores]]></notes>
+        </task>
+        <task id="49" uid="f1a00049-0000-4000-8000-000000000049" name="Hito: Frontend completado" color="#ff0000" meeting="true" start="2026-05-22" duration="0" complete="100" expand="false" cost-manual-value="0" cost-calculated="false">
+            <notes><![CDATA[Integración total frontend-backend con todas las funcionalidades operativas]]></notes>
+        </task>
+        <task id="50" uid="f1a00050-0000-4000-8000-000000000050" name="Hito: Entrega del proyecto" color="#ff0000" meeting="true" start="2026-05-31" duration="0" complete="100" expand="false" cost-manual-value="0" cost-calculated="false">
+            <notes><![CDATA[Proyecto finalizado y entregado con toda la documentación]]></notes>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="0" name="Amando Cuenca Carabia" function="Frontend Developer" contacts="" phone="+34 600 00 00 01" role="0">
+            <description><![CDATA[Responsable de la lógica JavaScript y el diagrama de Gantt]]></description>
+            <rate name="standard" value="18.0"/>
+        </resource>
+        <resource id="1" name="Juan José León Carmona" function="Frontend Designer" contacts="" phone="+34 600 00 00 02" role="1">
+            <description><![CDATA[Responsable de la maquetación HTML5 y CSS3]]></description>
+            <rate name="standard" value="16.0"/>
+        </resource>
+        <resource id="2" name="Marcos Romá Sánchez" function="Backend Developer" contacts="" phone="+34 600 00 00 03" role="2">
+            <description><![CDATA[Responsable del backend Spring Boot, JDBC y base de datos H2]]></description>
+            <rate name="standard" value="20.0"/>
+        </resource>
+    </resources>
+    <allocations>
+        <!-- Fase 1: Inicialización -->
+        <allocation task-id="2" resource-id="0" function="" responsible="true" load="50.0"/>
+        <allocation task-id="3" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="0" function="" responsible="false" load="50.0"/>
+        <allocation task-id="4" resource-id="2" function="" responsible="true" load="100.0"/>
+        <!-- Fase 2-5: Backend -->
+        <allocation task-id="5" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="7" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="8" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="9" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="10" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="11" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="13" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="14" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="15" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="16" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="19" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="20" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="22" resource-id="2" function="" responsible="true" load="100.0"/>
+        <!-- Fase 6: Maquetación (Juan José) -->
+        <allocation task-id="23" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="24" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="25" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="26" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="27" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="28" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="29" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="30" resource-id="1" function="" responsible="true" load="100.0"/>
+        <allocation task-id="31" resource-id="1" function="" responsible="true" load="100.0"/>
+        <!-- Fase 7: JavaScript (Amando) -->
+        <allocation task-id="32" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="33" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="36" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="37" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="38" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="39" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="40" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="41" resource-id="0" function="" responsible="true" load="100.0"/>
+        <!-- Fase 8: Documentación -->
+        <allocation task-id="42" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="42" resource-id="2" function="" responsible="false" load="100.0"/>
+        <allocation task-id="43" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="43" resource-id="2" function="" responsible="false" load="100.0"/>
+        <allocation task-id="44" resource-id="0" function="" responsible="true" load="100.0"/>
+        <allocation task-id="45" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="46" resource-id="2" function="" responsible="true" load="100.0"/>
+        <allocation task-id="46" resource-id="0" function="" responsible="false" load="50.0"/>
+    </allocations>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles>
+        <role id="0" name="Frontend Developer"/>
+        <role id="1" name="Frontend Designer"/>
+        <role id="2" name="Backend Developer"/>
+    </roles>
+</project>
